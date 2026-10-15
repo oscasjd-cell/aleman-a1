@@ -1,0 +1,1059 @@
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#2b59c3"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Alemán A1">
+<title>Alemán A1.1 – Vocabulario y pronunciación</title>
+<style>
+:root{--bg:#f4f6fb;--c:#fff;--p:#2b59c3;--ok:#1f9d55;--bad:#d64545;--t:#1d2433;--m:#6b7280}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}button{touch-action:manipulation}body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;background:var(--bg);color:var(--t)}
+header{background:var(--p);color:#fff;padding:calc(12px + env(safe-area-inset-top)) 16px 12px;position:sticky;top:0;z-index:5}
+header h1{margin:0 0 8px;font-size:1.2rem}nav{display:flex;gap:6px;flex-wrap:wrap}
+nav button{background:rgba(255,255,255,.18);color:#fff;border:0;border-radius:10px;padding:10px 12px;font-size:.95rem;cursor:pointer}
+nav button.on{background:#fff;color:var(--p);font-weight:700}
+main{max-width:760px;margin:auto;padding:14px}
+.card{background:var(--c);border-radius:16px;padding:16px;box-shadow:0 2px 10px rgba(0,0,0,.06);margin-bottom:14px}
+.row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+select,input[type=search]{font-size:1rem;padding:10px;border-radius:10px;border:1px solid #ccd;width:100%}
+.btn{border:0;border-radius:12px;padding:14px 16px;font-size:1.05rem;background:var(--p);color:#fff;cursor:pointer;flex:1;min-width:120px}
+.btn.sec{background:#e6ebf7;color:var(--p)}.btn.ok{background:var(--ok)}.btn.bad{background:var(--bad)}
+.flash{min-height:230px;display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;cursor:pointer}
+.de{font-size:2rem;font-weight:700}.es{font-size:1.35rem;margin-top:10px}.pr{font-size:1.2rem;color:var(--p);margin-top:6px;font-family:ui-monospace,monospace}
+.tip{font-size:.92rem;color:var(--m);margin-top:8px;text-align:left;background:#f7f8fc;border-radius:10px;padding:8px 10px}
+.small{color:var(--m);font-size:.9rem}.opt{display:block;width:100%;margin:6px 0;text-align:left;background:#eef2fb;color:var(--t)}
+.opt.right{background:var(--ok);color:#fff}.opt.wrong{background:var(--bad);color:#fff}
+.boxes{display:flex;gap:4px}.boxes div{flex:1;text-align:center;background:#eef2fb;border-radius:8px;padding:6px;font-size:.85rem}
+.li{display:flex;justify-content:space-between;gap:8px;padding:10px 0;border-bottom:1px solid #eee}.li b{display:block}
+.spk{background:#e6ebf7;border:0;border-radius:50%;width:44px;height:44px;font-size:1.2rem;cursor:pointer;flex:none}
+h2{margin-top:0}.v{color:#d64545;font-weight:700}.e{color:#2b59c3;font-weight:700;text-decoration:underline}.m{color:#2b59c3;font-weight:700}.f{color:#d64545;font-weight:700}.n{color:#1f9d55;font-weight:700}.tw{overflow-x:auto}table{border-collapse:collapse;width:100%;margin:8px 0;font-size:.95rem}td,th{border:1px solid #dde;padding:6px 8px;text-align:left}th{background:#eef2fb}tr td:first-child{font-weight:600}.bar{height:6px;background:#dde;border-radius:3px;margin-top:4px}.bar i{display:block;height:100%;background:var(--ok);border-radius:3px}.tok{border:0;border-radius:10px;background:#eef2fb;padding:10px 12px;margin:4px;font-size:1.05rem;cursor:pointer}.tok.on{display:inline-block;background:#d9e4ff}.ans{min-height:52px;border:2px dashed #ccd;border-radius:12px;padding:6px;margin:10px 0}.pool{margin-bottom:8px}h3{margin-bottom:6px}.hide{display:none}
+</style></head><body>
+<header><h1>🇩🇪 Alemán A1.1 para hispanohablantes</h1>
+<nav id="nav"><button data-v="flash" class="on">Tarjetas</button><button data-v="rep">Repetir</button><button data-v="quiz">Test</button><button data-v="gram">Gramática</button><button data-v="fr">Frases</button><button data-v="list">Buscar</button><button data-v="snd">Sonidos</button><button data-v="cfg">Ajustes</button></nav></header>
+<main>
+<div class="card"><div class="row"><select id="deck"></select></div>
+<div class="row" style="margin-top:8px"><button class="btn ok" id="due">Repasar hoy (<span id="dueN">0</span>)</button><button class="btn sec" id="all">Todo el mazo</button></div>
+<div class="boxes" id="boxes" style="margin-top:8px"></div></div>
+<section id="v-flash"><div class="card flash" id="fc"></div>
+<div class="row"><button class="btn sec" id="fPlay">🔊 Escuchar</button><button class="btn sec" id="fFlip">Girar</button></div>
+<div class="row" style="margin-top:8px"><button class="btn bad" id="fNo">No la sabía</button><button class="btn ok" id="fYes">¡La sabía!</button></div>
+<p class="small" id="fInfo"></p></section>
+<section id="v-rep" class="hide"><div class="card" style="text-align:center"><div class="de" id="rDe"></div><div class="pr" id="rPr"></div><div class="es" id="rEs"></div>
+<div class="row" style="margin-top:12px"><button class="btn sec" id="rPlay">🔊 Escuchar</button><button class="btn" id="rMic">🎤 Hablar</button><button class="btn sec" id="rNext">Siguiente ›</button></div>
+<p id="rRes" style="font-size:1.1rem"></p><p class="small" id="rSup"></p></div></section>
+<section id="v-quiz" class="hide"><div class="card"><div class="row"><select id="qMode"><option value="de-es">Alemán → Español</option><option value="es-de">Español → Alemán</option><option value="audio">Escuchar y elegir</option></select></div>
+<div id="qQ" style="margin:14px 0;text-align:center"></div><div id="qO"></div><p id="qR" class="small"></p>
+<button class="btn sec" id="qNext" style="width:100%">Siguiente pregunta ›</button><p class="small">Aciertos: <span id="qS">0/0</span></p></div></section>
+<section id="v-gram" class="hide"><div class="card" id="gC"></div></section>
+<section id="v-fr" class="hide"><div class="card"><h2>Frases útiles (<span id="frN"></span>)</h2><input type="search" id="fq" placeholder="Buscar frase…"><div id="frL"></div></div></section>
+<section id="v-list" class="hide"><div class="card"><input type="search" id="sq" placeholder="Buscar en alemán o español (todas las unidades)…"><div id="sl"></div></div></section>
+<section id="v-snd" class="hide"><div class="card" id="sndC"></div></section>
+<section id="v-cfg" class="hide"><div class="card"><h2>Ajustes</h2>
+<label>Velocidad: <b id="rateL"></b></label><input type="range" id="rate" min="0.5" max="1.1" step="0.05" style="width:100%">
+<div class="row"><button class="btn sec" id="rSlow">Lenta</button><button class="btn sec" id="rNorm">Normal</button></div>
+<p><label>Voz alemana:</label><select id="voice"></select></p><p class="small" id="vInfo"></p>
+<button class="btn bad" id="reset" style="width:100%">Borrar mi progreso</button></div></section>
+</main>
+<script>
+const RAW=`#antes|Antes de empezar: números 0-12
+null|cero|NUL|
+eins|uno|ains|ei
+zwei|dos|tsvai|z,ei,w
+drei|tres|drai|ei,r
+vier|cuatro|fiia|v,er
+fünf|cinco|fünf|ü
+sechs|seis|seks|
+sieben|siete|SII-ben|s,ie
+acht|ocho|ajt|ach
+neun|nueve|noin|eu
+zehn|diez|tseen|z
+elf|once|elf|
+zwölf|doce|tsvölf|z,w,ö
+#sonidos|Antes de empezar: pronunciación
+das Ei|el huevo|das ai|ei
+die Liebe|el amor|di LII-be|ie
+heute|hoy|HOI-te|eu,h
+die Häuser|las casas|di HOI-sa|eu,s,er
+der Käse|el queso|dea KEE-se|s
+schön|bonito|shöön|ö
+über|sobre, encima de|Ü-ba|ü,er
+die Straße|la calle|di SHTRAA-se|
+ich|yo|ij|ich
+das Buch|el libro|das buj|ach
+die Schule|la escuela|di SHUU-le|
+spielen|jugar|SHPII-len|ie
+die Stadt|la ciudad|di shtat|
+die Zeit|el tiempo (hora)|di tsait|z,ei
+das Wasser|el agua|das VA-sa|w,er
+der Vater|el padre|dea FAA-ta|v,er
+ja|sí|ia|
+rot|rojo|root|r
+#u1|Unidad 1: Saludos y presentaciones
+Guten Tag|buenos días / buenas tardes|GÚ-ten taak|
+Guten Morgen|buenos días (mañana)|GÚ-ten MOR-guen|r
+Guten Abend|buenas noches (al llegar)|GÚ-ten AA-bent|
+Gute Nacht|buenas noches (al dormir)|GÚ-te najt|ach
+Hallo|hola|HA-lo|h
+Tschüss|adiós (informal)|chüs|ü
+Auf Wiedersehen|adiós (formal)|auf VII-da-see-en|w,ie,s
+Bis später|hasta luego|bis SHPEE-ta|er
+Wie heißt du?|¿cómo te llamas?|vii HAIST du|w,ei,h
+Ich heiße Anna.|me llamo Anna.|ij HAI-se A-na|ich,ei
+Wie heißen Sie?|¿cómo se llama usted?|vii HAI-sen sii|w,s
+Mein Name ist ...|mi nombre es ...|main NAA-me ist|ei
+Wer ist das?|¿quién es ese/esa?|vea ist das|w,er
+Das ist Peter.|ese es Peter.|das ist PEE-ta|er
+Woher kommst du?|¿de dónde eres?|vo-HEA komst du|w,h
+Ich komme aus Spanien.|soy de España.|ij KO-me aus SHPAA-ni-en|ich
+Ich komme aus Mexiko.|soy de México.|ij KO-me aus MEK-si-ko|ich
+Wo wohnst du?|¿dónde vives?|vo voonst du|w
+Ich wohne in Berlin.|vivo en Berlín.|ij VOO-ne in ber-LIIN|ich,w
+Wie geht's?|¿qué tal?|vii geets|w
+Wie geht es Ihnen?|¿cómo está usted?|vii geet es II-nen|w
+Mir geht es gut.|estoy bien.|mia geet es guut|
+gut|bien|guut|
+schlecht|mal|shlejt|ich
+sehr gut|muy bien|sea guut|s
+Und dir?|¿y tú?|unt dia|
+wer|quién|vea|w
+wie|cómo|vii|w,ie
+was|qué|vas|w
+wo|dónde|vo|w
+woher|de dónde|vo-HEA|w
+wohin|adónde|vo-HIN|w,h
+wann|cuándo|van|w
+warum|por qué|va-RUM|w
+ich|yo|ij|ich
+du|tú|du|
+er|él|ea|er
+sie|ella|sii|s,ie
+es|ello (neutro)|es|
+wir|nosotros|via|w
+ihr|vosotros|iia|
+sie (Plural)|ellos/ellas|sii|s
+Sie|usted / ustedes|sii|s
+ich komme|yo vengo|ij KO-me|ich
+du kommst|tú vienes|du komst|
+er kommt|él viene|ea komt|
+wir kommen|nosotros venimos|via KO-men|
+ich wohne|yo vivo|ij VOO-ne|w
+du wohnst|tú vives|du voonst|w
+sie wohnt|ella vive|sii voont|w,s
+ich heiße|me llamo|ij HAI-se|ei
+du heißt|te llamas|du haist|ei,h
+danke|gracias|DAN-ke|
+danke schön|muchas gracias|DAN-ke shöön|ö
+bitte|por favor / de nada|BI-te|
+Entschuldigung|perdón / disculpe|ent-SHUL-di-gung|
+ja|sí|ia|
+nein|no|nain|ei
+Freut mich!|¡encantado/a!|froit mij|eu,ich
+#u2|Unidad 2: Familie
+die Familie|la familia|di fa-MII-li-e|
+der Vater|el padre|dea FAA-ta|v,er
+die Mutter|la madre|di MU-ta|er
+die Eltern|los padres|di EL-tern|
+der Sohn|el hijo|dea soon|s
+die Tochter|la hija|di TOJ-ta|ach,er
+der Bruder|el hermano|dea BRUU-da|er
+die Schwester|la hermana|di SHVES-ta|w,er
+die Geschwister|los hermanos (hermanos y hermanas)|di gue-SHVIS-ta|w,er
+der Großvater|el abuelo|dea GROOS-faa-ta|v,er
+die Großmutter|la abuela|di GROOS-mu-ta|er
+die Großeltern|los abuelos|di GROOS-el-tern|
+der Onkel|el tío|dea ON-kel|
+die Tante|la tía|di TAN-te|
+der Mann|el hombre / el marido|dea man|
+die Frau|la mujer / la esposa|di frau|
+das Kind|el niño|das kint|
+die Kinder|los niños / los hijos|di KIN-da|er
+mein Vater|mi padre|main FAA-ta|ei,v
+meine Mutter|mi madre|MAI-ne MU-ta|ei
+mein Kind|mi hijo/a (niño)|main kint|ei
+meine Kinder|mis hijos|MAI-ne KIN-da|ei,er
+ich bin|yo soy/estoy|ij bin|ich
+du bist|tú eres|du bist|
+er ist|él es|ea ist|
+wir sind|nosotros somos|via sint|w
+ihr seid|vosotros sois|iia sait|ei
+sie sind|ellos son|sii sint|s
+ich spreche|yo hablo|ij SHPRE-je|ich
+du sprichst|tú hablas|du shprijst|ich
+er spricht|él habla|ea shprijt|ich
+Ich spreche Spanisch.|hablo español.|ij SHPRE-je SHPAA-nish|ich
+Deutsch|alemán (idioma)|doich|eu
+Englisch|inglés|ENG-lish|
+Französisch|francés|fran-TSÖÖ-sish|z,ö
+Italienisch|italiano|i-ta-li-EE-nish|
+Sprichst du Deutsch?|¿hablas alemán?|shprijst du doich|ich,eu
+ein bisschen|un poco|ain BIS-jen|ei,ich
+Ich bin verheiratet.|estoy casado/a.|ij bin fer-HAI-ra-tet|v,ei
+ledig|soltero/a|LEE-dij|ich
+geschieden|divorciado/a|gue-SHII-den|ie
+Hast du Kinder?|¿tienes hijos?|hast du KIN-da|h,er
+Ich habe zwei Kinder.|tengo dos hijos.|ij HAA-be tsvai KIN-da|ich,z
+das Alphabet|el alfabeto|das al-fa-BEET|
+Wie schreibt man das?|¿cómo se escribe?|vii shraipt man das|w,ei
+dreizehn|trece|DRAI-tseen|ei,z
+vierzehn|catorce|FIA-tseen|v,z
+fünfzehn|quince|FÜNF-tseen|ü,z
+sechzehn|dieciséis|SEJ-tseen|ich,z
+siebzehn|diecisiete|SIIP-tseen|s,z
+achtzehn|dieciocho|AJ-tseen|ach,z
+neunzehn|diecinueve|NOIN-tseen|eu,z
+zwanzig|veinte|TSVAN-tsij|z,w,ich
+#u3|Unidad 3: Essen und Trinken
+das Essen|la comida|das E-sen|
+das Trinken|la bebida (beber)|das TRIN-ken|
+der Apfel|la manzana|dea AP-fel|
+die Banane|el plátano|di ba-NAA-ne|
+die Orange|la naranja|di o-RAN-she|
+die Erdbeere|la fresa|di EERT-bee-re|
+die Birne|la pera|di BIR-ne|
+die Traube|la uva|di TRAU-be|
+die Zitrone|el limón|di tsi-TROO-ne|z
+die Tomate|el tomate|di to-MAA-te|
+die Kartoffel|la patata|di kar-TO-fel|
+die Karotte|la zanahoria|di ka-RO-te|
+die Zwiebel|la cebolla|di TSVII-bel|z,w,ie
+der Salat|la ensalada / lechuga|dea sa-LAAT|s
+die Gurke|el pepino|di GUR-ke|
+das Brot|el pan|das broot|
+das Brötchen|el panecillo|das BRÖÖT-jen|ö,ich
+der Käse|el queso|dea KEE-se|s
+die Wurst|la salchicha / embutido|di vurst|w
+das Fleisch|la carne|das flaish|ei
+der Fisch|el pescado|dea fish|
+das Ei|el huevo|das ai|ei
+der Reis|el arroz|dea rais|ei
+die Nudeln|la pasta|di NUU-deln|
+die Suppe|la sopa|di SU-pe|
+der Kuchen|el pastel|dea KUU-jen|ach
+die Butter|la mantequilla|di BU-ta|er
+der Zucker|el azúcar|dea TSU-ka|z,er
+das Wasser|el agua|das VA-sa|w,er
+der Kaffee|el café|dea KA-fe|
+der Tee|el té|dea tee|
+die Milch|la leche|di milj|ich
+der Saft|el zumo|dea saft|s
+das Bier|la cerveza|das biia|ie
+der Wein|el vino|dea vain|w,ei
+die Cola|la cola|di KOO-la|
+ein Apfel|una manzana (masc.)|ain AP-fel|ei
+eine Banane|un plátano (fem.)|AI-ne ba-NAA-ne|ei
+kein Fleisch|nada de carne / ninguna carne|kain flaish|ei
+keine Milch|nada de leche|KAI-ne milj|ei,ich
+Ich esse kein Fleisch.|no como carne.|ij E-se kain flaish|ich,ei
+ich habe|yo tengo|ij HAA-be|ich,h
+du hast|tú tienes|du hast|h
+er hat|él tiene|ea hat|h
+wir haben|nosotros tenemos|via HAA-ben|h
+Ich habe Hunger.|tengo hambre.|ij HAA-be HUN-ga|h,er
+Ich habe Durst.|tengo sed.|ij HAA-be durst|h
+einundzwanzig|veintiuno|AIN-unt-tsvan-tsij|ei,z,ich
+dreißig|treinta|DRAI-sij|ei,ich
+vierzig|cuarenta|FIR-tsij|v,z,ich
+fünfzig|cincuenta|FÜNF-tsij|ü,z,ich
+sechzig|sesenta|SEJ-tsij|ich,z
+siebzig|setenta|SIIP-tsij|s,z
+achtzig|ochenta|AJ-tsij|ach,z
+neunzig|noventa|NOIN-tsij|eu,z
+hundert|cien|HUN-dert|h
+Was kostet das?|¿cuánto cuesta esto?|vas KOS-tet das|w
+Das kostet drei Euro.|cuesta tres euros.|das KOS-tet drai OI-ro|ei,eu
+Ich esse gerne Obst.|me gusta comer fruta.|ij E-se GUER-ne oopst|ich
+Ich trinke gerne Kaffee.|me gusta beber café.|ij TRIN-ke GUER-ne KA-fe|ich
+Was isst du gerne?|¿qué te gusta comer?|vas ist du GUER-ne|w
+Die Speisekarte, bitte.|la carta, por favor.|di SHPAI-se-kar-te BI-te|ei
+Ich möchte bestellen.|quisiera pedir.|ij MÖJ-te be-SHTE-len|ich,ö
+Ich nehme ein Wasser.|tomo un agua.|ij NEE-me ain VA-sa|ich,w
+Die Rechnung, bitte.|la cuenta, por favor.|di REJ-nung BI-te|ich
+Zahlen, bitte!|¡a pagar, por favor!|TSAA-len BI-te|z
+Zusammen oder getrennt?|¿junto o separado?|tsu-SA-men OO-da gue-TRENT|z,er
+Guten Appetit!|¡que aproveche!|GÚ-ten a-pe-TIIT|
+Prost!|¡salud! (brindis)|proost|
+lecker|rico, delicioso|LE-ka|er
+#u4|Unidad 4: Wohnen
+die Wohnung|el piso|di VOO-nung|w
+das Haus|la casa|das haus|h
+das Zimmer|la habitación|das TSI-ma|z,er
+die Küche|la cocina|di KÜ-je|ü,ich
+das Bad|el baño|das baat|
+das Schlafzimmer|el dormitorio|das SHLAAF-tsi-ma|z,er
+das Wohnzimmer|el salón|das VOON-tsi-ma|w,z
+der Flur|el pasillo|dea fluua|
+der Balkon|el balcón|dea bal-KOON|
+der Garten|el jardín|dea GAR-ten|
+der Tisch|la mesa|dea tish|
+der Stuhl|la silla|dea shtuul|
+das Bett|la cama|das bet|
+das Sofa|el sofá|das SOO-fa|s
+der Schrank|el armario|dea shrank|
+die Lampe|la lámpara|di LAM-pe|
+das Regal|la estantería|das re-GAAL|
+der Kühlschrank|el frigorífico|dea KÜÜL-shrank|ü
+der Herd|la cocina (fogón)|dea heert|h
+die Dusche|la ducha|di DUU-she|
+groß|grande|groos|
+klein|pequeño|klain|ei
+hell|luminoso|hel|h
+dunkel|oscuro|DUN-kel|
+neu|nuevo|noi|eu
+alt|viejo|alt|
+schön|bonito|shöön|ö
+hässlich|feo|HES-lij|h,ich
+teuer|caro|TOI-a|eu,er
+billig|barato|BI-lij|ich
+gemütlich|acogedor|gue-MÜÜT-lij|ü,ich
+rot|rojo|root|r
+blau|azul|blau|
+grün|verde|grüün|ü
+gelb|amarillo|guelp|
+schwarz|negro|shvarts|w,z
+weiß|blanco|vais|w,ei
+grau|gris|grau|
+braun|marrón|braun|
+dein Zimmer|tu habitación|dain TSI-ma|ei,z
+deine Wohnung|tu piso|DAI-ne VOO-nung|ei,w
+sein Haus|su casa (de él)|sain haus|s,ei
+ihr Garten|su jardín (de ella)|iia GAR-ten|
+Wie ist deine Wohnung?|¿cómo es tu piso?|vii ist DAI-ne VOO-nung|w,ei
+Die Wohnung ist hell.|el piso es luminoso.|di VOO-nung ist hel|w,h
+tausend|mil|TAU-sent|s
+zehntausend|diez mil|TSEEN-tau-sent|z,s
+hunderttausend|cien mil|HUN-dert-tau-sent|h,s
+eine Million|un millón|AI-ne mi-li-OON|ei
+#u5|Unidad 5: Mein Tag
+Wie spät ist es?|¿qué hora es?|vii shpeet ist es|w
+Wie viel Uhr ist es?|¿qué hora es?|vii fiil uua ist es|w,v
+Es ist acht Uhr.|son las ocho.|es ist ajt uua|ach
+halb neun|las ocho y media|halp noin|h,eu
+Viertel nach drei|las tres y cuarto|FIR-tel naaj drai|v,ach,ei
+Viertel vor vier|las cuatro menos cuarto|FIR-tel foa fiia|v
+um sieben Uhr|a las siete|um SII-ben uua|s,ie
+die Uhr|el reloj / la hora|di uua|
+die Stunde|la hora (duración)|di SHTUN-de|
+die Minute|el minuto|di mi-NUU-te|
+der Morgen|la mañana|dea MOR-guen|
+der Mittag|el mediodía|dea MI-taak|
+der Nachmittag|la tarde|dea NAAJ-mi-taak|ach
+der Abend|la noche (tarde-noche)|dea AA-bent|
+die Nacht|la noche|di najt|ach
+der Montag|el lunes|dea MOON-taak|
+der Dienstag|el martes|dea DIINS-taak|ie
+der Mittwoch|el miércoles|dea MIT-voj|w,ach
+der Donnerstag|el jueves|dea DO-ners-taak|
+der Freitag|el viernes|dea FRAI-taak|ei
+der Samstag|el sábado|dea SAMS-taak|s
+der Sonntag|el domingo|dea SON-taak|s
+am Montag|el lunes (en lunes)|am MOON-taak|
+der Januar|enero|dea IA-nu-ar|
+der Februar|febrero|dea FEE-bru-ar|
+der März|marzo|dea merts|z
+der April|abril|dea a-PRIL|
+der Mai|mayo|dea mai|
+der Juni|junio|dea IUU-ni|
+der Juli|julio|dea IUU-li|
+der August|agosto|dea au-GUST|
+der September|septiembre|dea sep-TEM-ba|er
+der Oktober|octubre|dea ok-TOO-ba|er
+der November|noviembre|dea no-VEM-ba|v,er
+der Dezember|diciembre|dea de-TSEM-ba|z,er
+der Frühling|la primavera|dea FRÜÜ-ling|ü
+der Sommer|el verano|dea SO-ma|s,er
+der Herbst|el otoño|dea herpst|h
+der Winter|el invierno|dea VIN-ta|w,er
+aufstehen|levantarse|AUF-shtee-en|
+Ich stehe um sieben Uhr auf.|me levanto a las siete.|ij SHTEE-e um SII-ben uua auf|ich
+einkaufen|hacer la compra|AIN-kau-fen|ei
+anrufen|llamar por teléfono|AN-ruu-fen|
+fernsehen|ver la tele|FERN-see-en|v,s
+Ich sehe fern.|veo la tele.|ij SEE-e fern|ich,s
+frühstücken|desayunar|FRÜÜ-shtü-ken|ü
+arbeiten|trabajar|AR-bai-ten|ei
+schlafen|dormir|SHLAA-fen|
+essen – du isst|comer – tú comes|E-sen, du ist|
+fahren – du fährst|ir (en vehículo) – tú vas|FAA-ren, du feerst|
+lesen – du liest|leer – tú lees|LEE-sen, du liist|s,ie
+nehmen – du nimmst|tomar – tú tomas|NEE-men, du nimst|
+sehen – er sieht|ver – él ve|SEE-en, ea siit|s,ie
+#u6|Unidad 6: Hobbys
+das Hobby|el hobby / la afición|das HO-bi|h
+die Freizeit|el tiempo libre|di FRAI-tsait|ei,z
+Was machst du in deiner Freizeit?|¿qué haces en tu tiempo libre?|vas majst du in DAI-na FRAI-tsait|w,ach,ei,z
+Ich spiele Fußball.|juego al fútbol.|ij SHPII-le FUUS-bal|ich,ie
+Ich lese gern.|me gusta leer.|ij LEE-se guern|ich,s
+schwimmen|nadar|SHVI-men|w
+tanzen|bailar|TAN-tsen|z
+kochen|cocinar|KO-jen|ach
+reisen|viajar|RAI-sen|ei,s
+Musik hören|escuchar música|mu-SIIK HÖÖ-ren|ö
+Fahrrad fahren|montar en bici|FAA-raat FAA-ren|
+wandern|hacer senderismo|VAN-dern|w
+fotografieren|hacer fotos|fo-to-gra-FII-ren|ie
+Meine Lieblingsmusik ist Pop.|mi música favorita es el pop.|MAI-ne LIIP-lings-mu-siik ist pop|ei,ie
+Was ist dein Lieblingsessen?|¿cuál es tu comida favorita?|vas ist dain LIIP-lings-e-sen|w,ie
+Wie findest du das?|¿qué te parece?|vii FIN-dest du das|w
+Ich finde das super.|me parece genial.|ij FIN-de das SUU-pa|ich,s,er
+Das finde ich langweilig.|eso me parece aburrido.|das FIN-de ij LANG-vai-lij|ich,w,ei
+interessant|interesante|in-te-re-SANT|
+das Wetter|el tiempo (clima)|das VE-ta|w,er
+Wie ist das Wetter?|¿qué tiempo hace?|vii ist das VE-ta|w,er
+Die Sonne scheint.|hace sol.|di SO-ne shaint|s,ei
+Es regnet.|llueve.|es REEG-net|
+Es schneit.|nieva.|es shnait|ei
+Es ist kalt.|hace frío.|es ist kalt|
+Es ist warm.|hace calor.|es ist varm|w
+Es ist windig.|hace viento.|es ist VIN-dij|w,ich
+die Ferien|las vacaciones (escolares)|di FEE-ri-en|
+der Urlaub|las vacaciones (trabajo)|dea UUR-laup|
+am Strand|en la playa|am shtrant|
+Ich habe einen Bruder.|tengo un hermano. (acusativo: einen)|ij HAA-be AI-nen BRUU-da|ich,h,ei,er
+Ich kaufe den Tisch.|compro la mesa. (der → den)|ij KAU-fe deen tish|ich
+Ich brauche einen Stuhl.|necesito una silla.|ij BRAU-je AI-nen shtuul|ich,ach,ei
+Hast du einen Hund?|¿tienes un perro?|hast du AI-nen hunt|h,ei
+#u7|Unidad 7: Arbeit
+die Arbeit|el trabajo|di AR-bait|ei
+der Beruf|la profesión|dea be-RUUF|
+Was sind Sie von Beruf?|¿cuál es su profesión?|vas sint sii fon be-RUUF|w,s,v
+Ich bin Lehrerin.|soy profesora.|ij bin LEE-re-rin|ich
+der Lehrer|el profesor|dea LEE-ra|er
+der Arzt / die Ärztin|el médico / la médica|dea artst / di ERTS-tin|z
+der Koch / die Köchin|el cocinero / la cocinera|dea koj / di KÖ-jin|ach,ö,ich
+der Kellner / die Kellnerin|el camarero / la camarera|dea KEL-na / di KEL-ne-rin|er
+der Verkäufer|el vendedor|dea fer-KOI-fa|v,eu,er
+der Ingenieur|el ingeniero|dea in-she-ni-ÖÖA|ö
+der Student / die Studentin|el estudiante / la estudiante|dea shtu-DENT|
+der Polizist|el policía|dea po-li-TSIST|z
+die Krankenschwester|la enfermera|di KRAN-ken-shves-ta|w,er
+das Büro|la oficina|das bü-ROO|ü
+können|poder (capacidad)|KÖ-nen|ö
+Ich kann gut kochen.|sé cocinar bien.|ij kan guut KO-jen|ich,ach
+müssen|tener que|MÜ-sen|ü
+Ich muss arbeiten.|tengo que trabajar.|ij mus AR-bai-ten|ich,ei
+dürfen|tener permiso|DÜR-fen|ü
+Hier darf man nicht rauchen.|aquí no se puede fumar.|hia darf man nijt RAU-jen|h,ich,ach
+sollen|deber (encargo)|SO-len|s
+Du sollst mehr schlafen.|deberías dormir más.|du solst mea SHLAA-fen|s
+wollen|querer|VO-len|w
+Ich will Deutsch lernen.|quiero aprender alemán.|ij vil doich LER-nen|ich,w,eu
+möchten|quisiera / me gustaría|MÖJ-ten|ö,ich
+Ich möchte einen Kaffee.|quisiera un café.|ij MÖJ-te AI-nen KA-fe|ich,ö,ei
+Ich habe gearbeitet.|he trabajado.|ij HAA-be gue-AR-bai-tet|ich,h,ei
+Ich habe Deutsch gelernt.|he aprendido alemán.|ij HAA-be doich gue-LERNT|ich,eu
+Ich bin nach Berlin gefahren.|he ido a Berlín.|ij bin naaj ber-LIIN gue-FAA-ren|ich,ach
+Wir haben Pizza gegessen.|hemos comido pizza.|via HAA-ben PI-tsa gue-GUE-sen|w,z
+Was hast du gemacht?|¿qué has hecho?|vas hast du gue-MAJT|w,ach
+Sehr geehrte Damen und Herren,|Estimados señores:|sea gue-EER-te DAA-men unt HE-ren|s,h
+Liebe Anna,|Querida Anna:|LII-be A-na|ie
+Vielen Dank für Ihre E-Mail.|muchas gracias por su correo.|FII-len dank füa II-re II-meil|v,ie,ü
+Ich schreibe Ihnen, weil ...|le escribo porque ...|ij SHRAI-be II-nen vail|ich,ei,w
+Mit freundlichen Grüßen|atentamente|mit FROINT-li-jen GRÜÜ-sen|eu,ich,ü
+Viele Grüße|muchos saludos|FII-le GRÜÜ-se|v,ü
+Bis bald!|¡hasta pronto!|bis balt|
+`;
+const TIPS={
+"ü":"ü: di «i» con los labios redondeados como para «u».",
+"ö":"ö: di «e» con los labios redondeados como para «o».",
+"ä":"ä: como una «e» española abierta.",
+"ich":"ch suave (ich-Laut): como una «y» susurrada, sin voz; la lengua cerca del paladar, nunca la «j» fuerte española.",
+"ach":"ch fuerte (ach-Laut) tras a/o/u: como la «j» española, pero más suave, en la garganta.",
+"er":"-er final: casi una «a» corta; la r no se pronuncia.",
+"z":"z = «ts», como en «tsunami». Nunca como la z española.",
+"w":"w = «v» del inglés o francés (labio inferior con los dientes), no «u» ni «b».",
+"v":"v = «f» en la mayoría de palabras alemanas (Vater = «fáta»).",
+"s":"s antes de vocal: s sonora, como un zumbido de abeja («zzz»).",
+"ei":"ei se lee «ai».","ie":"ie se lee «i» larga.","eu":"eu / äu se leen «oi».",
+"h":"h al inicio se aspira: un soplo suave, como al empañar un cristal (no como la j española).",
+"r":"r: se pronuncia en la garganta (como hacer gárgaras suaves), no vibrante."};
+const DECKS=[],ITEMS=[];let cur=null;
+RAW.trim().split("\n").forEach(l=>{l=l.trim();if(!l)return;if(l[0]=="#"){const[id,t]=l.slice(1).split("|");cur={id,title:t,items:[]};DECKS.push(cur);return}
+const[de,es,pr,t]=l.split("|");const it={id:cur.id+":"+de,deck:cur.id,de,es,pr,tips:(t||"").split(",").filter(Boolean)};cur.items.push(it);ITEMS.push(it)});
+const $=s=>document.querySelector(s);const LS="aleman_a1_v1";
+let st=JSON.parse(localStorage.getItem(LS)||"{}");st.c=st.c||{};st.rate=st.rate||0.9;
+const save=()=>localStorage.setItem(LS,JSON.stringify(st));
+const INTV=[0,1,2,4,8,16];const DAY=864e5;
+const cs=it=>st.c[it.id]||{b:0,d:0};const isDue=it=>{const c=cs(it);return c.b==0||c.d<=Date.now()};
+function grade(it,ok){const c=cs(it);c.b=ok?Math.min(5,c.b+1):1;c.d=Date.now()+INTV[c.b]*DAY*(ok?1:0);st.c[it.id]=c;save()}
+// voz
+let voices=[];function loadV(){voices=speechSynthesis.getVoices().filter(v=>/^de/i.test(v.lang));const s=$("#voice");s.innerHTML=voices.map((v,i)=>`<option value="${i}">${v.name} (${v.lang})</option>`).join("")||"<option>Voz predeterminada de-DE</option>";
+const k=voices.findIndex(v=>v.name==st.voice);if(k>=0)s.value=k;$("#vInfo").textContent=voices.length?voices.length+" voz/voces alemanas disponibles.":"No se encontró voz alemana: se usará la del sistema con lang=de-DE. Instala una voz alemana en tu dispositivo para mejor sonido."}
+function say(t){if(!window.speechSynthesis)return alert("Tu navegador no admite síntesis de voz.");speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/\(.*?\)/g,"").replace("–",","));u.lang="de-DE";u.rate=st.rate;const v=voices.find(v=>v.name==st.voice)||voices.find(v=>v.lang=="de-DE")||voices[0];if(v)u.voice=v;speechSynthesis.speak(u)}
+if(window.speechSynthesis){loadV();speechSynthesis.onvoiceschanged=loadV}
+// mazo
+const dsel=$("#deck");dsel.innerHTML='<option value="*">Todas las unidades</option>'+DECKS.map(d=>`<option value="${d.id}">${d.title} (${d.items.length})</option>`).join("");dsel.value=st.deck||"antes";
+const deckItems=()=>dsel.value=="*"?ITEMS:DECKS.find(d=>d.id==dsel.value).items;
+let queue=[],qi=0,flipped=false,onlyDue=false;
+const shuf=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+function build(){const its=deckItems();queue=onlyDue?shuf(its.filter(isDue)):its.slice();qi=0;stats();showF();showR()}
+function stats(){const its=deckItems();$("#dueN").textContent=its.filter(isDue).length;const n=[0,0,0,0,0,0];its.forEach(i=>n[cs(i).b]++);
+$("#boxes").innerHTML=n.map((x,i)=>`<div>${i?"Caja "+i:"Nuevas"}<br><b>${x}</b></div>`).join("")}
+const tipHtml=it=>it.tips.map(t=>"• "+TIPS[t]).join("<br>");
+function showF(){flipped=false;const it=queue[qi];if(!it){$("#fc").innerHTML="<div class='es'>🎉 ¡No quedan tarjetas pendientes!</div><p class='small'>Pulsa «Todo el mazo» para seguir practicando.</p>";$("#fInfo").textContent="";return}
+$("#fc").innerHTML=`<div class="de">${it.de}</div><p class="small">Toca para girar</p>`;$("#fInfo").textContent=`Tarjeta ${qi+1} de ${queue.length} · Caja ${cs(it).b}`;say(it.de)}
+function flip(){const it=queue[qi];if(!it)return;flipped=!flipped;$("#fc").innerHTML=flipped?`<div class="de">${it.de}</div><div class="es">${it.es}</div><div class="pr">[${it.pr}]</div>${it.tips.length?`<div class="tip">${tipHtml(it)}</div>`:""}`:`<div class="de">${it.de}</div><p class="small">Toca para girar</p>`}
+function ans(ok){const it=queue[qi];if(!it)return;grade(it,ok);qi++;if(qi>=queue.length&&!onlyDue)qi=0;stats();showF()}
+$("#fc").onclick=flip;$("#fFlip").onclick=flip;$("#fPlay").onclick=()=>queue[qi]&&say(queue[qi].de);$("#fYes").onclick=()=>ans(true);$("#fNo").onclick=()=>ans(false);
+$("#due").onclick=()=>{onlyDue=true;build()};$("#all").onclick=()=>{onlyDue=false;build()};dsel.onchange=()=>{st.deck=dsel.value;save();build();newQ()};
+// repetir
+let ri=0;const norm=s=>s.toLowerCase().replace(/\(.*?\)/g,"").replace(/[.,!?¿¡–\-…]/g," ").replace(/ß/g,"ss").replace(/\s+/g," ").trim();
+function showR(){const it=queue.length?queue[ri%queue.length]:deckItems()[0];$("#rDe").textContent=it.de;$("#rPr").textContent="["+it.pr+"]";$("#rEs").textContent=it.es;$("#rRes").textContent="";$("#rMic").dataset.id=it.id}
+const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+$("#rSup").textContent=SR?"Pulsa 🎤 y di la palabra en alemán. (Requiere permiso de micrófono y suele necesitar conexión.)":"⚠️ Tu navegador no admite reconocimiento de voz. Usa Chrome o Edge (escritorio o Android). Puedes escuchar y repetir en voz alta igualmente.";
+$("#rPlay").onclick=()=>say($("#rDe").textContent);$("#rNext").onclick=()=>{ri++;showR()};
+$("#rMic").onclick=()=>{if(!SR){$("#rRes").textContent="Reconocimiento de voz no disponible en este navegador.";return}
+const target=norm($("#rDe").textContent).replace(/^(der|die|das) /,"");const r=new SR();r.lang="de-DE";r.maxAlternatives=5;r.interimResults=false;$("#rRes").textContent="🎙️ Escuchando…";
+r.onresult=e=>{const alts=[...e.results[0]].map(a=>a.transcript);const ok=alts.some(a=>{const n=norm(a);return n==norm($("#rDe").textContent)||n.includes(target)||target.includes(n)&&n.length>2});
+$("#rRes").innerHTML=`Entendí: «<b>${alts[0]}</b>»<br>`+(ok?"<span style='color:var(--ok)'>✅ ¡Muy bien!</span>":"<span style='color:var(--bad)'>❌ No coincide. Escucha e inténtalo otra vez.</span>")};
+r.onerror=e=>$("#rRes").textContent="Error del micrófono: "+e.error+(e.error=="not-allowed"?" (permite el micrófono)":"");r.start()};
+// quiz
+let qs=0,qt=0,qa=false;function newQ(){const pool=deckItems();const it=pool[Math.random()*pool.length|0];const m=$("#qMode").value;qa=false;$("#qR").textContent="";
+const all=pool.length>=4?pool:ITEMS;let opts=[it];while(opts.length<4){const o=all[Math.random()*all.length|0];if(!opts.some(x=>x.es==o.es||x.de==o.de))opts.push(o)}opts=shuf(opts);
+$("#qQ").innerHTML=m=="de-es"?`<div class="de">${it.de}</div>`:m=="es-de"?`<div class="es"><b>${it.es}</b></div>`:`<button class="btn" id="qPl">🔊 Escuchar otra vez</button>`;
+if(m!="es-de")say(it.de);if(m=="audio")$("#qPl").onclick=()=>say(it.de);
+$("#qO").innerHTML="";opts.forEach(o=>{const b=document.createElement("button");b.className="btn opt";b.textContent=m=="es-de"?o.de:o.es;b.onclick=()=>{if(qa)return;qa=true;qt++;const ok=o===it;if(ok)qs++;grade(it,ok);stats();b.classList.add(ok?"right":"wrong");
+[...$("#qO").children].forEach((c,i)=>{if(opts[i]===it)c.classList.add("right")});$("#qR").innerHTML=`<b>${it.de}</b> = ${it.es} · [${it.pr}]`;$("#qS").textContent=qs+"/"+qt;if(m=="es-de")say(it.de)};$("#qO").appendChild(b)})}
+$("#qNext").onclick=newQ;$("#qMode").onchange=newQ;
+// buscar
+const esc=s=>s.replace(/'/g,"\\'");
+function search(){const q=norm($("#sq").value);const its=q?ITEMS.filter(i=>norm(i.de+" "+i.es).includes(q)):deckItems();
+$("#sl").innerHTML=its.slice(0,200).map(i=>`<div class="li"><div><b>${i.de}</b>${i.es}<div class="pr" style="font-size:.95rem">[${i.pr}]</div><span class="small">${DECKS.find(d=>d.id==i.deck).title}</span></div><button class="spk" data-t="${i.de.replace(/"/g,"&quot;")}">🔊</button></div>`).join("")||"<p>Sin resultados.</p>"}
+$("#sq").oninput=search;$("#sl").onclick=e=>{if(e.target.dataset.t)say(e.target.dataset.t)};
+// sonidos
+const SND=[["ei","ai","mein, Wein, eins","Siempre «ai». Nunca «e-i»."],["ie","i larga","Liebe, vier, sieben","Una sola «i» alargada."],["eu / äu","oi","heute, neun, Häuser","Como «hoy»."],["ä","e abierta","Käse, Mädchen","Como la «e» de «perro», a veces larga."],["ö","e con labios de o","schön, zwölf, hören","Pon la boca para «o» y di «e»."],["ü","i con labios de u","über, fünf, Tschüss","Pon la boca para «u» y di «i». Como la u francesa."],["ß","s sorda (ss)","Straße, heißen, groß","Siempre s fuerte, nunca sonora."],["ch (ich-Laut)","j suave / y susurrada","ich, Milch, sprechen","Tras e, i, ä, ö, ü, consonantes: aire entre lengua y paladar, como un gato que bufa suave."],["ch (ach-Laut)","j española","acht, Buch, kochen","Tras a, o, u, au: como nuestra «j», algo más suave."],["sch","sh","Schule, schön, Tisch","Como el «sh» inglés o «shhh» para pedir silencio."],["sp / st (inicio)","shp / sht","spielen, Straße, Stuhl","Al principio de palabra: «shp», «sht». En medio, normal: «ist», «Fenster»."],["z","ts","zehn, Zeit, tanzen","Como «ts» en «tsunami». Nunca como la z española."],["w","v (inglesa)","Wasser, wie, wo","Labio inferior con los dientes superiores, con voz."],["v","f","Vater, vier, viel","Casi siempre «f». En palabras extranjeras «v» (Video, November)."],["j","i / y","ja, Juni, Januar","Como la «y» de «yo» suave: «ia», nunca la j española."],["r","r de garganta","rot, Brot, drei","Se hace en el fondo de la garganta, como gárgaras suaves. Al final (-er, -r) casi desaparece: «vier» = «fiia»."],["-er final","a corta","Vater, Mutter, Lehrer","Suena como una «a» relajada: «FAA-ta»."],["s + vocal","s sonora","sieben, Sonne, Käse","Zumbido de abeja «zzz». La s final o doble es sorda."],["h","h aspirada","Hallo, Haus, haben","Un soplo de aire. Tras vocal (gehen, Uhr) no suena y alarga la vocal."],["vocales largas","vocal alargada","Tag, Sohn, sehr","Vocal + h o vocal doble = larga. Ante consonante doble = corta (Mutter, Bett)."]];
+$("#sndC").innerHTML="<h2>Guía de sonidos para hispanohablantes</h2><p class='small'>En las guías, la sílaba en MAYÚSCULAS lleva el acento. Una vocal doble (aa, ee, ii) indica vocal larga.</p>"+SND.map(s=>`<div class="li"><div><b>${s[0]} → «${s[1]}»</b>${s[3]}<div class="small">Ejemplos: ${s[2]}</div></div><button class="spk" data-t="${s[2]}">🔊</button></div>`).join("");
+$("#sndC").onclick=e=>{if(e.target.dataset.t)say(e.target.dataset.t)};
+// ajustes y nav
+const setRate=r=>{st.rate=+r;$("#rate").value=r;$("#rateL").textContent=(+r).toFixed(2)+"x";save()};setRate(st.rate);
+$("#rate").oninput=e=>setRate(e.target.value);$("#rSlow").onclick=()=>setRate(0.6);$("#rNorm").onclick=()=>setRate(0.95);
+$("#voice").onchange=e=>{const v=voices[e.target.value];if(v){st.voice=v.name;save();say("Guten Tag")}};
+$("#reset").onclick=()=>{if(confirm("¿Borrar todo tu progreso?")){st.c={};save();build()}};
+$("#nav").onclick=e=>{const v=e.target.dataset.v;if(!v)return;document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b==e.target));document.querySelectorAll("main section").forEach(s=>s.classList.toggle("hide",s.id!="v-"+v));if(v=="list")search();if(v=="quiz")newQ();if(v=="rep")showR();if(v=="gram")gList();if(v=="fr")fList()};
+const GRAW=`@pron|u1|Pronombres personales · du vs. Sie
+>En alemán el pronombre sujeto <b>es obligatorio</b>: en español decimos «vengo», en alemán siempre <b>Ich komme</b>. Cuidado: <b>sie</b> puede ser «ella», «ellos/ellas» y, con mayúscula, <b>Sie</b> = «usted/ustedes».
+>Usa <b>du</b> con amigos, familia, niños y entre jóvenes. Usa <b>Sie</b> (formal) con desconocidos, en el trabajo, en tiendas. <b>Sie</b> se conjuga igual que «ellos» (Sie kommen).
+!Persona;Alemán;Español
+!1ª sing.;ich;yo
+!2ª sing.;du;tú
+!3ª sing.;er / sie / es;él / ella / ello
+!1ª pl.;wir;nosotros
+!2ª pl.;ihr;vosotros
+!3ª pl.;sie;ellos / ellas
+!formal;Sie;usted / ustedes
+E Ich *komme* aus Spanien.|Soy de España.|ij KO-me aus SHPAA-ni-en
+E *Kommen* Sie aus Deutschland?|¿Es usted de Alemania?|KO-men sii aus DOICH-lant
+E Er *heißt* Paul.|Él se llama Paul.|ea haist paul
+E Wir *wohnen* in Madrid.|Vivimos en Madrid.|via VOO-nen in ma-DRIT
+E Woher *kommt* ihr?|¿De dónde sois?|vo-HEA komt iia
+E Sie *ist* meine Lehrerin.|Ella es mi profesora.|sii ist MAI-ne LEE-re-rin
+F ___ heiße Ana.|Ich|Du,Er,Wir|«heiße» termina en -e → ich.
+F ___ kommst aus Peru.|Du|Ich,Er,Ihr|La terminación -st va con du.
+F Wie heißen ___, Frau Müller?|Sie|du,ihr,er|A una señora desconocida: forma formal Sie.
+F ___ wohnen in Köln. (nosotros)|Wir|Ihr,Ich,Du|nosotros = wir.
+F Max? ___ kommt aus Wien.|Er|Sie,Es,Ihr|Max es un hombre → er.
+F Anna? ___ wohnt in Bonn.|Sie|Er,Es,Du|Anna es una mujer → sie.
+F Woher kommt ___? (vosotros)|ihr|wir,du,Sie|vosotros = ihr, verbo con -t.
+M ¿Cómo se llama usted?|Wie heißen Sie?|Wie heißt du?;Wie heißt Sie?|Formal: Sie + verbo en -en.
+M Ella es de Italia.|Sie kommt aus Italien.|Sie kommen aus Italien.;Er kommt aus Italien.|«ella» = sie + verbo en -t.
+M Nosotros vivimos en Berlín.|Wir wohnen in Berlin.|Wir wohnt in Berlin.;Ihr wohnen in Berlin.|wir + -en.
+@pres|u1|Presente: verbos regulares
+>Como en español, el verbo cambia según la persona. Quita <b>-en</b> del infinitivo (komm-en, wohn-en) y añade la terminación. ¡Solo hay 4 terminaciones diferentes!
+>Si la raíz termina en <b>-t/-d</b> (arbeiten) se añade una <b>e</b>: du arbeit<b>e</b>st, er arbeit<b>e</b>t. Si termina en <b>-s/-ß/-z</b> (heißen), du solo lleva <b>-t</b>: du heißt.
+!Persona;Terminación;kommen;wohnen;heißen
+!ich;-e;komme;wohne;heiße
+!du;-st;kommst;wohnst;heißt
+!er/sie/es;-t;kommt;wohnt;heißt
+!wir;-en;kommen;wohnen;heißen
+!ihr;-t;kommt;wohnt;heißt
+!sie/Sie;-en;kommen;wohnen;heißen
+E Ich *wohne* in Sevilla.|Vivo en Sevilla.|ij VOO-ne in se-VI-ya
+E Du *lernst* Deutsch.|Aprendes alemán.|du lernst doich
+E Sie *arbeitet* in Berlin.|Ella trabaja en Berlín.|sii AR-bai-tet in ber-LIIN
+E Wir *trinken* Kaffee.|Bebemos café.|via TRIN-ken KA-fe
+E Ihr *spielt* Fußball.|Vosotros jugáis al fútbol.|iia shpiilt FUUS-bal
+E Du *heißt* Tom.|Te llamas Tom.|du haist tom
+F Ich ___ aus Chile. (kommen)|komme|kommst,kommt,kommen|ich → -e.
+F Du ___ in Hamburg. (wohnen)|wohnst|wohne,wohnt,wohnen|du → -st.
+F Er ___ Deutsch. (lernen)|lernt|lernst,lerne,lernen|er → -t.
+F Wir ___ Tee. (trinken)|trinken|trinkt,trinke,trinkst|wir → -en.
+F Ihr ___ gut. (spielen)|spielt|spielen,spielst,spiele|ihr → -t.
+F Du ___ viel. (arbeiten)|arbeitest|arbeitst,arbeiten,arbeite|Raíz en -t: se añade e → arbeitest.
+F Wie ___ du? (heißen)|heißt|heißst,heißen,heiße|Raíz en ß: du solo lleva -t.
+M Ellos beben agua.|Sie trinken Wasser.|Sie trinkt Wasser.;Sie trinke Wasser.|ellos = sie + -en.
+M Aprendo alemán.|Ich lerne Deutsch.|Ich lernst Deutsch.;Ich lernen Deutsch.|ich → -e.
+M ¿Dónde trabajas?|Wo arbeitest du?|Wo arbeitst du?;Wo arbeiten du?|Raíz en -t: arbeitest.
+@wq|u1|Preguntas: W-Fragen y sí/no
+>Preguntas con palabra W (wer, wie, was, wo, woher, wohin, wann, warum): la <span class="w">palabra W</span> va en posición 1 y el <span class="v">verbo</span> en posición 2.
+>Preguntas de sí/no: el <span class="v">verbo</span> va en <b>posición 1</b> (en español basta la entonación: «¿Vienes?» → <b>Kommst du?</b>).
+!Tipo;Pos. 1;Pos. 2;Resto
+!W-Frage;Woher;kommst;du?
+!Ja/Nein;Kommst;du;aus Spanien?
+!Afirmación;Ich;komme;aus Spanien.
+E Wo *wohnst* du?|¿Dónde vives?|vo voonst du
+E Was *trinkst* du?|¿Qué bebes?|vas trinkst du
+E Wann *kommt* der Bus?|¿Cuándo viene el autobús?|van komt dea bus
+E Warum *lernst* du Deutsch?|¿Por qué aprendes alemán?|va-RUM lernst du doich
+E *Sprichst* du Englisch?|¿Hablas inglés?|shprijst du ENG-lish
+E *Wohnen* Sie in Berlin?|¿Vive usted en Berlín?|VOO-nen sii in ber-LIIN
+F ___ heißt du? – Ich heiße Eva.|Wie|Wo,Wer,Was|Preguntamos por el nombre: wie.
+F ___ wohnst du? – In Wien.|Wo|Woher,Wann,Wie|Lugar: wo.
+F ___ kommst du? – Aus Spanien.|Woher|Wo,Wohin,Wer|Origen (aus): woher.
+F ___ ist das? – Das ist Peter.|Wer|Was,Wie,Wo|Persona: wer.
+F ___ fährst du? – Nach Berlin.|Wohin|Woher,Wo,Wann|Dirección (nach): wohin.
+F ___ kommst du? – Um acht Uhr.|Wann|Wo,Was,Wie|Tiempo: wann.
+F ___ du Deutsch? (pregunta sí/no)|Lernst|Du lernst,Lernen,Lerne|Sí/no: verbo en posición 1.
+M ¿Dónde vives?|Wo wohnst du?|Wo du wohnst?;Woher wohnst du?|W-palabra + verbo + sujeto.
+M ¿Hablas alemán?|Sprichst du Deutsch?|Du sprichst Deutsch?;Sprechen du Deutsch?|Sí/no: verbo primero.
+M ¿Qué bebes?|Was trinkst du?|Wer trinkst du?;Was du trinkst?|was = qué.
+@sein|u2|El verbo sein (ser/estar)
+>En alemán <b>sein</b> = «ser» y «estar» a la vez: Ich bin Lehrer (soy) · Ich bin müde (estoy). Es totalmente irregular: ¡apréndelo de memoria!
+!Persona;sein;Español
+!ich;bin;soy/estoy
+!du;bist;eres
+!er/sie/es;ist;es
+!wir;sind;somos
+!ihr;seid;sois
+!sie/Sie;sind;son
+E Ich *bin* Ana.|Soy Ana.|ij bin A-na
+E Du *bist* sehr nett.|Eres muy simpático.|du bist sea net
+E Das *ist* meine Mutter.|Esa es mi madre.|das ist MAI-ne MU-ta
+E Wir *sind* verheiratet.|Estamos casados.|via sint fer-HAI-ra-tet
+E Ihr *seid* Studenten.|Vosotros sois estudiantes.|iia sait shtu-DEN-ten
+E *Sind* Sie Herr Weber?|¿Es usted el señor Weber?|sint sii her VEE-ba
+F Ich ___ aus Spanien.|bin|bist,ist,sind|ich bin.
+F Du ___ mein Freund.|bist|bin,ist,seid|du bist.
+F Mein Vater ___ Arzt.|ist|bin,sind,seid|er (mein Vater) → ist.
+F Wir ___ Geschwister.|sind|seid,ist,bin|wir sind.
+F Ihr ___ sehr nett.|seid|sind,seit,bist|ihr seid (¡ojo! «seit» es otra palabra).
+F Woher ___ Sie?|sind|seid,ist,bist|Sie sind.
+F Meine Eltern ___ in Madrid.|sind|ist,seid,bin|Plural (sie) → sind.
+M Estoy casado.|Ich bin verheiratet.|Ich ist verheiratet.;Ich habe verheiratet.|ich bin.
+M ¿Quién es ese?|Wer ist das?|Wer sind das?;Wie ist das?|wer = quién.
+M Somos de México.|Wir sind aus Mexiko.|Wir seid aus Mexiko.;Wir ist aus Mexiko.|wir sind.
+@art|u2|Artículos der/die/das y el género
+>El alemán tiene <b>3 géneros</b>: <span class="m">der</span> (masculino), <span class="f">die</span> (femenino), <span class="n">das</span> (neutro). En plural siempre <span class="f">die</span>. ¡El género no coincide con el español! (la mesa → <b>der</b> Tisch). Aprende cada sustantivo con su artículo. Los sustantivos se escriben siempre con <b>mayúscula</b>.
+>Pistas por terminación:
+!Terminación;Género;Ejemplos
+!-ung, -heit, -keit, -ion, -schaft;die;die Wohnung, die Freiheit, die Information
+!-e (casi siempre);die;die Lampe, die Schule, die Tante
+!-in (mujeres);die;die Lehrerin, die Ärztin
+!-chen, -lein (diminutivos);das;das Mädchen, das Brötchen
+!-um, -ment;das;das Zentrum, das Dokument
+!-er (personas), -ling, días, meses, estaciones;der;der Lehrer, der Frühling, der Montag, der Mai
+E *Der* Tisch ist neu.|La mesa es nueva.|dea tish ist noi
+E *Die* Lampe ist schön.|La lámpara es bonita.|di LAM-pe ist shöön
+E *Das* Mädchen heißt Lea.|La niña se llama Lea.|das MEET-jen haist LEE-a
+E *Die* Wohnung ist groß.|El piso es grande.|di VOO-nung ist groos
+E *Das* Brötchen ist lecker.|El panecillo está rico.|das BRÖÖT-jen ist LE-ka
+F ___ Zeitung (el periódico)|die|der,das|-ung → siempre die.
+F ___ Mädchen (la niña)|das|die,der|-chen → siempre das, aunque sea una niña.
+F ___ Montag (el lunes)|der|die,das|Días de la semana → der.
+F ___ Lehrerin (la profesora)|die|der,das|-in → femenino.
+F ___ Freiheit (la libertad)|die|der,das|-heit → die.
+F ___ Brötchen (el panecillo)|das|der,die|-chen → das.
+F ___ Schule (la escuela)|die|der,das|-e → casi siempre die.
+F ___ Sommer (el verano)|der|die,das|Estaciones → der.
+M La casa es grande.|Das Haus ist groß.|Die Haus ist groß.;Der Haus ist groß.|das Haus.
+M La mesa es vieja.|Der Tisch ist alt.|Die Tisch ist alt.;Das Tisch ist alt.|der Tisch (en español es femenino).
+@plural|u2|El plural
+>En plural el artículo siempre es <span class="f">die</span>. La forma del sustantivo cambia y hay varios modelos; aprende el plural con cada palabra.
+!Modelo;Singular;Plural
+!-e (a veces con umlaut);der Tisch / der Stuhl;die Tische / die Stühle
+!-(e)n;die Lampe / die Frau;die Lampen / die Frauen
+!-er (con umlaut);das Kind / das Buch;die Kinder / die Bücher
+!-s (palabras extranjeras);das Auto / das Hotel;die Autos / die Hotels
+!sin cambio (-er, -el, -chen);der Lehrer / das Mädchen;die Lehrer / die Mädchen
+!solo umlaut;der Vater / die Mutter;die Väter / die Mütter
+E Ich habe zwei *Kinder*.|Tengo dos hijos.|ij HAA-be tsvai KIN-da
+E Die *Bücher* sind neu.|Los libros son nuevos.|di BÜÜ-ja sint noi
+E Wir haben drei *Autos*.|Tenemos tres coches.|via HAA-ben drai AU-tos
+E Die *Stühle* sind bequem.|Las sillas son cómodas.|di SHTÜÜ-le sint be-KVEEM
+F der Tisch → die ___|Tische|Tischen,Tischs|Modelo -e.
+F die Lampe → die ___|Lampen|Lampes,Lampe|Femeninos en -e → -n.
+F das Kind → die ___|Kinder|Kinde,Kinds|Modelo -er.
+F das Auto → die ___|Autos|Auten,Autoe|Palabra extranjera → -s.
+F der Lehrer → die ___|Lehrer|Lehrers,Lehreren|-er: sin cambio.
+F die Mutter → die ___|Mütter|Muttern,Mutters|Solo umlaut.
+F ___ Kinder spielen. (los)|Die|Der,Das|Plural → siempre die.
+M Las mujeres trabajan.|Die Frauen arbeiten.|Die Fraus arbeiten.;Der Frauen arbeiten.|die Frau → die Frauen.
+M Tengo dos hermanos.|Ich habe zwei Brüder.|Ich habe zwei Bruders.;Ich habe zwei Brudern.|der Bruder → die Brüder.
+@stem|u2|Verbos irregulares: sprechen, essen, fahren…
+>Algunos verbos cambian la vocal <b>solo con du y er/sie/es</b> (como «pido/pides» en español, pero solo en 2 personas). Tres modelos: <b>e → i</b>, <b>e → ie</b>, <b>a → ä</b>.
+!Persona;sprechen (e→i);essen (e→i);lesen (e→ie);fahren (a→ä)
+!ich;spreche;esse;lese;fahre
+!du;sprichst;isst;liest;fährst
+!er/sie/es;spricht;isst;liest;fährt
+!wir;sprechen;essen;lesen;fahren
+!ihr;sprecht;esst;lest;fahrt
+!sie/Sie;sprechen;essen;lesen;fahren
+>Otros: nehmen → du nimmst, er nimmt · sehen → du siehst · schlafen → du schläfst · geben → du gibst.
+E Er *spricht* Spanisch.|Él habla español.|ea shprijt SHPAA-nish
+E Du *isst* gern Pizza.|Te gusta comer pizza.|du ist guern PI-tsa
+E Sie *liest* ein Buch.|Ella lee un libro.|sii liist ain buuj
+E *Fährst* du nach Berlin?|¿Vas a Berlín?|feerst du naaj ber-LIIN
+E Mein Bruder *schläft* viel.|Mi hermano duerme mucho.|main BRUU-da shleeft fiil
+F Du ___ gut Deutsch. (sprechen)|sprichst|sprechst,spricht,sprechen|e→i con du.
+F Er ___ Fleisch. (essen)|isst|esst,esse,essen|e→i: er isst.
+F Ich ___ Englisch. (sprechen)|spreche|spriche,sprichst,spricht|Con ich no hay cambio de vocal.
+F Anna ___ eine Zeitung. (lesen)|liest|lest,lese,lesen|e→ie: sie liest.
+F Wohin ___ du? (fahren)|fährst|fahrst,fährt,fahren|a→ä: du fährst.
+F Wir ___ Spanisch. (sprechen)|sprechen|sprichen,spricht,sprecht|Con wir no hay cambio.
+F Er ___ den Bus. (nehmen)|nimmt|nehmt,nimmst,nehmen|nehmen → er nimmt.
+M Ella habla alemán.|Sie spricht Deutsch.|Sie sprecht Deutsch.;Sie sprechen Deutsch.|e→i.
+M ¿Qué comes?|Was isst du?|Was esst du?;Was essen du?|du isst.
+M Él va en coche a Múnich.|Er fährt nach München.|Er fahrt nach München.;Er fähren nach München.|a→ä.
+@ein|u3|Artículo indefinido ein/eine y kein/keine
+>«un/una» = <span class="m">ein</span> (masc.), <span class="f">eine</span> (fem.), <span class="n">ein</span> (neutro). No hay plural («unos» = sin artículo: Äpfel).
+><b>kein</b> = «ningún / no … ningún»: niega un sustantivo con ein o sin artículo. Se declina igual con k-: kein, keine, kein, plural <b>keine</b>.
+!;Masculino;Femenino;Neutro;Plural
+!definido;der Apfel;die Banane;das Ei;die Äpfel
+!indefinido;ein Apfel;eine Banane;ein Ei;– Äpfel
+!negativo;kein Apfel;keine Banane;kein Ei;keine Äpfel
+E Das ist *ein* Apfel.|Esto es una manzana.|das ist ain AP-fel
+E Das ist *eine* Tomate.|Esto es un tomate.|das ist AI-ne to-MAA-te
+E Das ist *kein* Käse.|Esto no es queso.|das ist kain KEE-se
+E Das ist *keine* Orange.|Esto no es una naranja.|das ist KAI-ne o-RAN-she
+E Ich trinke *keinen* Kaffee.|No bebo café.|ij TRIN-ke KAI-nen KA-fe
+F Das ist ___ Banane.|eine|ein,einen|die Banane → eine.
+F Das ist ___ Brötchen.|ein|eine,einer|das Brötchen → ein.
+F Das ist ___ Salat.|ein|eine,keine|der Salat → ein (nominativo).
+F Das ist kein Apfel, das ist ___ Birne.|eine|ein,keine|die Birne → eine.
+F Das ist ___ Wasser, das ist Wein.|kein|keine,nicht|das Wasser → kein.
+F Das sind ___ Kartoffeln.|keine|kein,nicht|Plural → keine.
+F Das ist ___ Suppe.|keine|kein,nicht ein|die Suppe → keine.
+M Esto no es una pera.|Das ist keine Birne.|Das ist nicht eine Birne.;Das ist kein Birne.|die Birne → keine.
+M Esto es un huevo.|Das ist ein Ei.|Das ist eine Ei.;Das ist einen Ei.|das Ei → ein.
+M Esto no es un tomate.|Das ist keine Tomate.|Das ist kein Tomate.;Das ist nicht Tomate.|die Tomate → keine.
+@haben|u3|El verbo haben (tener)
+>haben = «tener». Es casi regular, pero <b>du hast</b> y <b>er hat</b> pierden la b. Expresiones: Hunger haben (tener hambre), Durst haben (tener sed), Zeit haben (tener tiempo).
+!Persona;haben
+!ich;habe
+!du;hast
+!er/sie/es;hat
+!wir;haben
+!ihr;habt
+!sie/Sie;haben
+E Ich *habe* Hunger.|Tengo hambre.|ij HAA-be HUN-ga
+E *Hast* du Zeit?|¿Tienes tiempo?|hast du tsait
+E Sie *hat* zwei Kinder.|Ella tiene dos hijos.|sii hat tsvai KIN-da
+E Wir *haben* einen Hund.|Tenemos un perro.|via HAA-ben AI-nen hunt
+E *Habt* ihr Durst?|¿Tenéis sed?|haapt iia durst
+F Ich ___ Durst.|habe|hast,hat,haben|ich habe.
+F Du ___ ein Auto.|hast|habst,hat,habe|du hast (sin b).
+F Er ___ keine Zeit.|hat|habt,hast,haben|er hat.
+F Wir ___ Hunger.|haben|habt,hat,habe|wir haben.
+F ___ ihr Kinder?|Habt|Haben,Hat,Hast|ihr habt.
+F Meine Eltern ___ ein Haus.|haben|hat,habt,hast|Plural → haben.
+F Herr Weber, ___ Sie Zeit?|haben|hat,habt,hast|Sie haben.
+M ¿Tienes hambre?|Hast du Hunger?|Hat du Hunger?;Bist du Hunger?|«tener hambre» = Hunger haben.
+M Él tiene una hermana.|Er hat eine Schwester.|Er hast eine Schwester.;Er habt eine Schwester.|er hat.
+M No tengo tiempo.|Ich habe keine Zeit.|Ich habe nicht Zeit.;Ich hat keine Zeit.|Zeit sin artículo → keine.
+@neg|u3|Negación: nicht vs. kein
+>Usa <b>kein</b> para negar un <b>sustantivo</b> con ein/eine o sin artículo: Ich habe <b>kein</b> Auto. Usa <b>nicht</b> para todo lo demás: verbos, adjetivos, nombres propios, sustantivos con der/die/das o mein: Ich komme <b>nicht</b>. Das ist <b>nicht</b> mein Auto.
+>Español «no» → alemán <b>nicht</b> o <b>kein</b>. «nein» es solo la respuesta «no».
+!Situación;Ejemplo
+!ein/eine → kein(e);Ich habe ein Auto. → Ich habe kein Auto.
+!sin artículo → kein(e);Ich trinke Milch. → Ich trinke keine Milch.
+!verbo;Ich schwimme nicht.
+!adjetivo;Das ist nicht teuer.
+!der/die/das, mein…;Das ist nicht mein Buch.
+E Ich *spreche* kein Französisch.|No hablo francés.|ij SHPRE-je kain fran-TSÖÖ-sish
+E Das *ist* nicht teuer.|Eso no es caro.|das ist nijt TOI-a
+E Ich *komme* heute nicht.|Hoy no vengo.|ij KO-me HOI-te nijt
+E Er *hat* keine Kinder.|Él no tiene hijos.|ea hat KAI-ne KIN-da
+E Das *ist* nicht mein Handy.|Ese no es mi móvil.|das ist nijt main HEN-di
+F Ich trinke ___ Kaffee.|keinen|nicht,kein|Sustantivo sin artículo → kein (acusativo masc.: keinen).
+F Das Essen ist ___ gut.|nicht|kein,keine|Adjetivo → nicht.
+F Wir haben ___ Zeit.|keine|nicht,kein|Sustantivo sin artículo → keine.
+F Ich wohne ___ in Berlin.|nicht|kein,keine|Se niega el verbo/lugar → nicht.
+F Das ist ___ Auto.|kein|nicht,keine|ein Auto → kein Auto.
+F Peter kommt ___.|nicht|kein,keinen|Verbo → nicht.
+F Das ist ___ mein Bruder.|nicht|kein,keine|Con mein → nicht.
+M No tengo coche.|Ich habe kein Auto.|Ich habe nicht Auto.;Ich habe nicht ein Auto.|ein Auto → kein Auto.
+M No bailo.|Ich tanze nicht.|Ich tanze kein.;Ich nicht tanze.|Verbo → nicht al final.
+M La casa no es grande.|Das Haus ist nicht groß.|Das Haus ist kein groß.;Das Haus nicht ist groß.|Adjetivo → nicht.
+@gern|u3|gern / nicht gern (me gusta)
+>Para decir «me gusta + verbo» usa el verbo + <b>gern</b> (o gerne): Ich esse <b>gern</b> Obst = Me gusta comer fruta. Negativo: <b>nicht gern</b>. Más: <b>lieber</b> (prefiero), <b>am liebsten</b> (lo que más).
+!Español;Alemán
+!Me gusta nadar.;Ich schwimme gern.
+!No me gusta cocinar.;Ich koche nicht gern.
+!Prefiero té.;Ich trinke lieber Tee.
+!Lo que más me gusta es leer.;Ich lese am liebsten.
+E Ich *esse* gern Obst.|Me gusta comer fruta.|ij E-se guern oopst
+E Ich *trinke* nicht gern Bier.|No me gusta la cerveza.|ij TRIN-ke nijt guern biia
+E *Kochst* du gern?|¿Te gusta cocinar?|kojst du guern
+E Wir *tanzen* gern.|Nos gusta bailar.|via TAN-tsen guern
+E Ich *trinke* lieber Tee.|Prefiero beber té.|ij TRIN-ke LII-ba tee
+F Ich spiele ___ Tennis. (me gusta)|gern|gut,lieb|gern = me gusta.
+F Ich koche ___. (no me gusta)|nicht gern|kein gern,gern nicht|nicht gern.
+F Kaffee oder Tee? Ich trinke ___ Tee.|lieber|gerner,mehr gern|Comparativo de gern: lieber.
+F Was machst du am ___? – Lesen.|liebsten|gernsten,lieber|am liebsten = lo que más.
+F ___ du gern? – Ja, ich tanze gern.|Tanzt|Tanzen,Tanze|du tanzt.
+F Er ___ gern Fußball. (spielen)|spielt|spielst,spielen|er spielt.
+F Ich ___ gern Musik. (hören)|höre|hörst,hört|ich höre.
+M Me gusta viajar.|Ich reise gern.|Ich gern reise.;Ich mag reise.|verbo + gern.
+M No me gusta nadar.|Ich schwimme nicht gern.|Ich schwimme gern nicht.;Ich nicht schwimme gern.|nicht gern.
+M ¿Te gusta comer pescado?|Isst du gern Fisch?|Esst du gern Fisch?;Du isst gern Fisch?|Pregunta sí/no: verbo primero; du isst.
+@poss|u4|Posesivos: mein, dein, sein, ihr…
+>Igual que ein: masculino y neutro sin -e, femenino y plural con <b>-e</b>: <b>mein</b> Vater, <b>meine</b> Mutter, <b>mein</b> Kind, <b>meine</b> Kinder.
+>Ojo: «su» en español es ambiguo; en alemán depende del poseedor: <b>sein</b> (de él), <b>ihr</b> (de ella / de ellos), <b>Ihr</b> (de usted).
+!Persona;masc./neutro;fem./plural;Español
+!ich;mein;meine;mi
+!du;dein;deine;tu
+!er/es;sein;seine;su (de él)
+!sie;ihr;ihre;su (de ella)
+!wir;unser;unsere;nuestro
+!ihr;euer;eure;vuestro
+!sie/Sie;ihr / Ihr;ihre / Ihre;su (de ellos / usted)
+E Das *ist* mein Bruder.|Este es mi hermano.|das ist main BRUU-da
+E Wo *ist* deine Wohnung?|¿Dónde está tu piso?|vo ist DAI-ne VOO-nung
+E Peter und seine Frau *wohnen* in Bonn.|Peter y su mujer viven en Bonn.|PEE-ta unt SAI-ne frau VOO-nen in bon
+E Anna *liebt* ihren Hund.|Anna quiere a su perro.|A-na liipt II-ren hunt
+E Unser Haus *ist* klein.|Nuestra casa es pequeña.|UN-sa haus ist klain
+E Wie *ist* Ihr Name?|¿Cuál es su nombre (de usted)?|vii ist iia NAA-me
+F Das ist ___ Schwester. (mi)|meine|mein,meinen|die Schwester → meine.
+F Ist das ___ Auto? (tu)|dein|deine,deinen|das Auto → dein.
+F Paul und ___ Mutter. (su, de Paul)|seine|ihre,sein|Poseedor él → sein; die Mutter → seine.
+F Lisa und ___ Vater. (su, de Lisa)|ihr|sein,ihre|Poseedora ella → ihr; der Vater → ihr.
+F Das sind ___ Kinder. (nuestros)|unsere|unser,unseren|Plural → unsere.
+F Wie ist ___ Telefonnummer, Frau Klein?|Ihre|deine,Ihr|Formal Ihr; die Nummer → Ihre.
+F Das ist ___ Zimmer. (mi)|mein|meine,meiner|das Zimmer → mein.
+M Su casa (de él) es grande.|Sein Haus ist groß.|Ihr Haus ist groß.;Seine Haus ist groß.|de él → sein; das Haus.
+M Mi madre es médica.|Meine Mutter ist Ärztin.|Mein Mutter ist Ärztin.;Meine Mutter ist eine Ärztin sein.|Profesiones sin artículo.
+M ¿Es tu habitación?|Ist das dein Zimmer?|Ist das deine Zimmer?;Ist das sein Zimmer?|das Zimmer → dein.
+@v2|u5|Orden de la frase: el verbo en posición 2 (V2)
+>La regla de oro: en una frase afirmativa el <span class="v">verbo conjugado</span> está <b>siempre en la posición 2</b>. En la posición 1 puede ir el sujeto u otra cosa (tiempo, lugar…). Si otra cosa va primero, el sujeto pasa <b>detrás</b> del verbo (inversión).
+>En español decimos «Hoy yo trabajo»; en alemán es imposible: <b>Heute arbeite ich</b>.
+!Pos. 1;Pos. 2 (verbo);Sujeto/resto
+!Ich;arbeite;heute.
+!Heute;arbeite;ich.
+!Am Montag;lerne;ich Deutsch.
+!In Berlin;wohnt;meine Schwester.
+E Heute *arbeite* ich.|Hoy trabajo.|HOI-te AR-bai-te ij
+E Am Montag *lerne* ich Deutsch.|El lunes aprendo alemán.|am MOON-taak LER-ne ij doich
+E Morgen *fahren* wir nach Köln.|Mañana vamos a Colonia.|MOR-guen FAA-ren via naaj köln
+E Am Abend *sehe* ich fern.|Por la noche veo la tele.|am AA-bent SEE-e ij fern
+E Im Sommer *reisen* wir gern.|En verano nos gusta viajar.|im SO-ma RAI-sen via guern
+E Um acht Uhr *beginnt* der Kurs.|A las ocho empieza el curso.|um ajt uua be-GUINT dea kurs
+F Heute ___ ich Pizza.|esse|ich esse,isst|Tras «Heute» va el verbo (pos. 2) y luego el sujeto.
+F Am Sonntag ___ wir.|schlafen|wir schlafen,schläft|Inversión: verbo + sujeto.
+F Morgen ___ Peter.|kommt|Peter kommt,kommen|Verbo en posición 2.
+F Im Winter ___ es kalt.|ist|es ist,sind|Verbo en posición 2.
+F Jetzt ___ du Deutsch.|lernst|du lernst,lernt|Inversión.
+F Um neun Uhr ___ ich.|arbeite|ich arbeite,arbeitet|Inversión.
+F Am Abend ___ sie ein Buch.|liest|sie liest,lest|lesen → sie liest, en pos. 2.
+M Hoy viene mi madre.|Heute kommt meine Mutter.|Heute meine Mutter kommt.;Heute kommen meine Mutter.|Verbo en pos. 2.
+M Mañana trabajo.|Morgen arbeite ich.|Morgen ich arbeite.;Ich morgen arbeite.|Inversión: Morgen + verbo + ich.
+M El lunes juego al tenis.|Am Montag spiele ich Tennis.|Am Montag ich spiele Tennis.;Am Montag spielen ich Tennis.|Verbo en pos. 2.
+@trenn|u5|Verbos separables (aufstehen…)
+>Muchos verbos tienen un prefijo que <b>se separa</b> en presente y va <span class="e">al final</span> de la frase: auf|stehen → Ich <span class="v">stehe</span> um 7 Uhr <span class="e">auf</span>. El acento siempre va en el prefijo: AUF-stehen.
+>Prefijos separables típicos: an-, auf-, aus-, ein-, mit-, fern-, zu-, ab-, zurück-.
+!Infinitivo;Español;Frase
+!aufstehen;levantarse;Ich stehe um 7 Uhr auf.
+!einkaufen;hacer la compra;Wir kaufen heute ein.
+!anrufen;llamar;Ich rufe dich an.
+!fernsehen;ver la tele;Er sieht fern.
+!mitkommen;venir también;Kommst du mit?
+!aufräumen;ordenar;Sie räumt das Zimmer auf.
+E Ich *stehe* um sieben Uhr _auf_.|Me levanto a las siete.|ij SHTEE-e um SII-ben uua auf
+E Wir *kaufen* am Samstag _ein_.|El sábado hacemos la compra.|via KAU-fen am SAMS-taak ain
+E Ich *rufe* meine Mutter _an_.|Llamo a mi madre.|ij RUU-fe MAI-ne MU-ta an
+E Er *sieht* am Abend _fern_.|Él ve la tele por la noche.|ea siit am AA-bent fern
+E *Kommst* du _mit_?|¿Vienes (conmigo)?|komst du mit
+E Der Zug *fährt* um zehn Uhr _ab_.|El tren sale a las diez.|dea tsuuk feert um tseen uua ap
+F Ich stehe um sechs Uhr ___. (aufstehen)|auf|an,ein|El prefijo auf va al final.
+F Wir ___ heute ein. (einkaufen)|kaufen|einkaufen,kauft|El verbo base en pos. 2, «ein» al final.
+F Er ___ seine Freundin an. (anrufen)|ruft|anruft,rufen|er ruft … an.
+F Du siehst jeden Tag ___. (fernsehen)|fern|an,auf|fern al final.
+F Kommst du ___? (mitkommen)|mit|an,ein|mit al final.
+F Wann ___ du auf? (aufstehen)|stehst|aufstehst,steht|du stehst … auf.
+F Sie ___ das Zimmer auf. (aufräumen)|räumt|aufräumt,räumen|sie räumt … auf.
+M Me levanto a las seis.|Ich stehe um sechs Uhr auf.|Ich aufstehe um sechs Uhr.;Ich stehe auf um sechs Uhr.|Prefijo al final.
+M ¿Me llamas?|Rufst du mich an?|Anrufst du mich?;Rufst an du mich?|Prefijo al final.
+M Hacemos la compra hoy.|Wir kaufen heute ein.|Wir einkaufen heute.;Wir kaufen ein heute.|Prefijo al final.
+@uhr|u5|La hora (Uhrzeit)
+>Pregunta: <b>Wie spät ist es?</b> / <b>Wie viel Uhr ist es?</b> · «a las…» = <b>um</b> … Uhr.
+>¡Cuidado con <b>halb</b>! En alemán «halb acht» = media hora <b>antes</b> de las 8 = <b>las 7:30</b> (no las 8:30). Lenguaje formal (horarios): 19:30 = neunzehn Uhr dreißig.
+!Hora;Informal;Formal
+!8:00;acht (Uhr);acht Uhr
+!8:15;Viertel nach acht;acht Uhr fünfzehn
+!8:30;halb neun;acht Uhr dreißig
+!8:45;Viertel vor neun;acht Uhr fünfundvierzig
+!8:10;zehn nach acht;acht Uhr zehn
+!8:50;zehn vor neun;acht Uhr fünfzig
+E Es *ist* halb acht.|Son las siete y media.|es ist halp ajt
+E Es *ist* Viertel nach zwei.|Son las dos y cuarto.|es ist FIR-tel naaj tsvai
+E Es *ist* zehn vor zwölf.|Son las doce menos diez.|es ist tseen foa tsvölf
+E Der Film *beginnt* um acht Uhr.|La película empieza a las ocho.|dea film be-GUINT um ajt uua
+E Ich *arbeite* von neun bis fünf.|Trabajo de nueve a cinco.|ij AR-bai-te fon noin bis fünf
+F 7:30 → Es ist ___ acht.|halb|halb nach,Viertel vor|halb acht = 7:30.
+F 3:15 → Es ist Viertel ___ drei.|nach|vor,halb|y cuarto = Viertel nach.
+F 5:45 → Es ist Viertel vor ___.|sechs|fünf,vier|Viertel vor sechs = 5:45.
+F 10:30 → Es ist halb ___.|elf|zehn,neun|halb elf = 10:30.
+F Der Kurs ist ___ neun Uhr. (a las nueve)|um|am,im|«a las» = um.
+F 1:10 → Es ist zehn ___ eins.|nach|vor,halb|y diez = zehn nach.
+F 11:55 → Es ist fünf ___ zwölf.|vor|nach,halb|menos cinco = fünf vor.
+M Son las nueve y media.|Es ist halb zehn.|Es ist halb neun.;Es ist neun halb.|halb zehn = 9:30.
+M Vengo a las tres.|Ich komme um drei Uhr.|Ich komme am drei Uhr.;Ich komme um drei Uhren.|um … Uhr.
+M Son las cuatro menos cuarto.|Es ist Viertel vor vier.|Es ist Viertel nach vier.;Es ist Viertel vor drei.|Viertel vor vier = 3:45.
+@akk|u6|Acusativo (complemento directo)
+>El complemento directo (lo que tienes, quieres, compras) va en <b>acusativo</b>. ¡Buena noticia! <b>Solo cambia el masculino</b>: der → <b>den</b>, ein → <b>einen</b>, kein → <b>keinen</b>, mein → <b>meinen</b>. Femenino, neutro y plural no cambian.
+>Verbos típicos con acusativo: haben, möchten, brauchen, kaufen, essen, trinken, sehen, suchen, es gibt.
+!;Masc.;Fem.;Neutro;Plural
+!Nominativo;der / ein / kein;die / eine / keine;das / ein / kein;die / – / keine
+!Acusativo;den / einen / keinen;die / eine / keine;das / ein / kein;die / – / keine
+E Ich *habe* einen Bruder.|Tengo un hermano.|ij HAA-be AI-nen BRUU-da
+E Ich *möchte* einen Kaffee.|Quisiera un café.|ij MÖJ-te AI-nen KA-fe
+E Wir *kaufen* den Tisch.|Compramos la mesa.|via KAU-fen deen tish
+E Er *hat* keinen Hund.|Él no tiene perro.|ea hat KAI-nen hunt
+E Ich *suche* meinen Schlüssel.|Busco mi llave.|ij SUU-je MAI-nen SHLÜ-sel
+E Sie *braucht* eine Lampe.|Ella necesita una lámpara.|sii braujt AI-ne LAM-pe
+F Ich möchte ___ Tee. (der Tee)|einen|ein,eine|Masculino acusativo → einen.
+F Ich habe ___ Schwester. (die)|eine|einen,ein|Femenino no cambia.
+F Wir kaufen ___ Sofa. (das)|ein|einen,eine|Neutro no cambia.
+F Siehst du ___ Mann? (der Mann)|den|der,dem|der → den.
+F Er hat ___ Bruder. (no tiene)|keinen|kein,keine|kein + masc. acusativo → keinen.
+F Ich brauche ___ Stuhl. (un)|einen|ein,eine|der Stuhl → einen.
+F Es gibt ___ Supermarkt hier. (un)|einen|ein,der|«es gibt» + acusativo → einen.
+M Quisiera una cerveza.|Ich möchte ein Bier.|Ich möchte einen Bier.;Ich möchte eine Bier.|das Bier no cambia.
+M Tengo un perro.|Ich habe einen Hund.|Ich habe ein Hund.;Ich habe der Hund.|der Hund → einen.
+M No tengo ordenador.|Ich habe keinen Computer.|Ich habe kein Computer.;Ich habe nicht Computer.|der Computer → keinen.
+@modal|u7|Verbos modales (können, müssen…)
+>Los modales funcionan como en español «puedo nadar»: modal conjugado en <span class="v">posición 2</span> + <span class="e">infinitivo al final</span>: Ich <span class="v">kann</span> gut <span class="e">schwimmen</span>. ¡Ojo! ich y er/sie/es son iguales y sin terminación (ich kann, er kann).
+!;können (poder/saber);müssen (tener que);dürfen (permiso);sollen (deber);wollen (querer);möchten (quisiera)
+!ich;kann;muss;darf;soll;will;möchte
+!du;kannst;musst;darfst;sollst;willst;möchtest
+!er/sie/es;kann;muss;darf;soll;will;möchte
+!wir;können;müssen;dürfen;sollen;wollen;möchten
+!ihr;könnt;müsst;dürft;sollt;wollt;möchtet
+!sie/Sie;können;müssen;dürfen;sollen;wollen;möchten
+E Ich *kann* gut _kochen_.|Sé cocinar bien.|ij kan guut KO-jen
+E Du *musst* heute _arbeiten_.|Hoy tienes que trabajar.|du must HOI-te AR-bai-ten
+E Hier *darf* man nicht _rauchen_.|Aquí no se puede fumar.|hia darf man nijt RAU-jen
+E Wir *wollen* Deutsch _lernen_.|Queremos aprender alemán.|via VO-len doich LER-nen
+E *Möchtest* du einen Tee _trinken_?|¿Quieres tomar un té?|MÖJ-test du AI-nen tee TRIN-ken
+E Sie *soll* mehr Wasser _trinken_.|Ella debe beber más agua.|sii sol mea VA-sa TRIN-ken
+F Ich ___ gut schwimmen. (können)|kann|kanne,könne,kannst|ich kann (sin terminación).
+F Du ___ jetzt gehen. (müssen)|musst|müsst,muss,müssen|du musst.
+F Er ___ nach Hause gehen. (wollen)|will|wollt,willt,wollen|er will.
+F Wir ___ hier parken. (dürfen)|dürfen|darfen,dürft,darf|wir dürfen.
+F Ich möchte ein Eis ___.|essen|esse,isst,gegessen|El infinitivo va al final.
+F ___ ihr Deutsch sprechen? (können)|Könnt|Kann,Können,Kannt|ihr könnt.
+F Was ___ ich machen? (sollen)|soll|sollst,sollen,sollt|ich soll.
+M Tengo que trabajar mañana.|Ich muss morgen arbeiten.|Ich muss arbeiten morgen.;Ich müsse morgen arbeiten.|Infinitivo al final.
+M ¿Puedes ayudarme?|Kannst du mir helfen?|Kannst du helfen mir?;Kann du mir helfen?|du kannst; infinitivo al final.
+M Quisiera pedir.|Ich möchte bestellen.|Ich möchte bestelle.;Ich möchten bestellen.|möchte + infinitivo.
+@perfekt|u7|Perfekt (pasado): haben/sein + participio
+>Para hablar del pasado se usa casi siempre el Perfekt, como «he trabajado»: <span class="v">haben/sein</span> en posición 2 + <span class="e">participio al final</span>.
+><b>Participio regular</b>: ge + raíz + t (machen → <b>gemacht</b>, arbeiten → <b>gearbeitet</b>). <b>Irregular</b>: ge + … + en (essen → <b>gegessen</b>, trinken → <b>getrunken</b>). Separables: ge en medio (einkaufen → ein<b>ge</b>kauft). Verbos en -ieren sin ge (studiert).
+><b>sein</b> con verbos de movimiento o cambio de estado: gehen → ich <b>bin</b> gegangen, fahren → <b>bin</b> gefahren, kommen → <b>bin</b> gekommen, aufstehen → <b>bin</b> aufgestanden. El resto con <b>haben</b>.
+!Infinitivo;Auxiliar;Participio
+!machen;haben;gemacht
+!arbeiten;haben;gearbeitet
+!kaufen;haben;gekauft
+!essen;haben;gegessen
+!trinken;haben;getrunken
+!schlafen;haben;geschlafen
+!gehen;sein;gegangen
+!fahren;sein;gefahren
+!kommen;sein;gekommen
+E Ich *habe* Deutsch _gelernt_.|He aprendido alemán.|ij HAA-be doich gue-LERNT
+E Wir *haben* Pizza _gegessen_.|Hemos comido pizza.|via HAA-ben PI-tsa gue-GUE-sen
+E Er *ist* nach Berlin _gefahren_.|Ha ido a Berlín.|ea ist naaj ber-LIIN gue-FAA-ren
+E Was *hast* du gestern _gemacht_?|¿Qué hiciste ayer?|vas hast du GUES-tern gue-MAJT
+E Ich *bin* um sieben Uhr _aufgestanden_.|Me levanté a las siete.|ij bin um SII-ben uua AUF-gue-shtan-den
+E Sie *hat* viel _gearbeitet_.|Ella ha trabajado mucho.|sii hat fiil gue-AR-bai-tet
+F Ich habe Kaffee ___. (trinken)|getrunken|getrinkt,trinkt,getrankt|trinken es irregular: getrunken.
+F Wir ___ nach Spanien gefahren.|sind|haben,hat|fahren (movimiento) → sein.
+F Er hat ein Buch ___. (kaufen)|gekauft|gekaufen,kauft,gekauf|Regular: ge-kauf-t.
+F Ich ___ gut geschlafen.|habe|bin,hat|schlafen → haben.
+F Sie ist nach Hause ___. (gehen)|gegangen|gegeht,gegehen,gang|gehen → gegangen.
+F Was hast du ___? (machen)|gemacht|gemachen,machte,macht|Regular: gemacht.
+F Ich habe am Samstag ___. (einkaufen)|eingekauft|geeinkauft,einkauft,eingekaufen|Separable: ge en medio.
+M He comido pescado.|Ich habe Fisch gegessen.|Ich habe gegessen Fisch.;Ich bin Fisch gegessen.|Participio al final; essen → haben.
+M Hemos ido a Múnich.|Wir sind nach München gefahren.|Wir haben nach München gefahren.;Wir sind nach München gefahrt.|Movimiento → sein; gefahren.
+M ¿Has trabajado hoy?|Hast du heute gearbeitet?|Hast du heute gearbeitet hast?;Bist du heute gearbeitet?|haben + gearbeitet.
+`;
+const FRAW=`u1|Ich bin neu hier.|Soy nuevo aquí.|ij bin noi hia
+u1|Ich verstehe das nicht.|No lo entiendo.|ij fer-SHTEE-e das nijt
+u1|Können Sie das bitte wiederholen?|¿Puede repetirlo, por favor?|KÖ-nen sii das BI-te vii-da-HOO-len
+u1|Sprechen Sie bitte langsam.|Hable despacio, por favor.|SHPRE-jen sii BI-te LANG-saam
+u1|Was bedeutet das?|¿Qué significa eso?|vas be-DOI-tet das
+u1|Schönen Tag noch!|¡Que tengas un buen día!|SHÖÖ-nen taak noj
+u2|Wie alt bist du? – Ich bin dreißig.|¿Cuántos años tienes? – Tengo treinta.|vii alt bist du – ij bin DRAI-sij
+u2|Hast du Geschwister?|¿Tienes hermanos?|hast du gue-SHVIS-ta
+u2|Mein Bruder wohnt in London.|Mi hermano vive en Londres.|main BRUU-da voont in LON-don
+u2|Meine Großeltern sind sehr alt.|Mis abuelos son muy mayores.|MAI-ne GROOS-el-tern sint sea alt
+u2|Welche Sprachen sprichst du?|¿Qué idiomas hablas?|VEL-je SHPRAA-jen shprijst du
+u3|Ich hätte gern ein Wasser, bitte.|Me gustaría un agua, por favor.|ij HE-te guern ain VA-sa BI-te
+u3|Was möchten Sie trinken?|¿Qué desea beber?|vas MÖJ-ten sii TRIN-ken
+u3|Das schmeckt sehr gut!|¡Esto sabe muy bien!|das shmekt sea guut
+u3|Ich bin Vegetarier.|Soy vegetariano.|ij bin ve-gue-TAA-ria
+u3|Ein Kilo Äpfel, bitte.|Un kilo de manzanas, por favor.|ain KII-lo EP-fel BI-te
+u3|Kann ich mit Karte zahlen?|¿Puedo pagar con tarjeta?|kan ij mit KAR-te TSAA-len
+u4|Ich suche eine Wohnung.|Busco un piso.|ij SUU-je AI-ne VOO-nung
+u4|Die Wohnung hat drei Zimmer.|El piso tiene tres habitaciones.|di VOO-nung hat drai TSI-ma
+u4|Die Küche ist sehr modern.|La cocina es muy moderna.|di KÜ-je ist sea mo-DERN
+u4|Wie hoch ist die Miete?|¿Cuánto es el alquiler?|vii hooj ist di MII-te
+u4|Das Sofa ist grün.|El sofá es verde.|das SOO-fa ist grüün
+u5|Ich frühstücke um sieben Uhr.|Desayuno a las siete.|ij FRÜÜ-shtü-ke um SII-ben uua
+u5|Am Wochenende schlafe ich lange.|El fin de semana duermo mucho.|am VO-jen-en-de SHLAA-fe ij LAN-ge
+u5|Wann hast du Zeit?|¿Cuándo tienes tiempo?|van hast du tsait
+u5|Mein Geburtstag ist im Mai.|Mi cumpleaños es en mayo.|main gue-BURTS-taak ist im mai
+u5|Hast du am Freitag Zeit?|¿Tienes tiempo el viernes?|hast du am FRAI-taak tsait
+u6|Was ist dein Hobby?|¿Cuál es tu hobby?|vas ist dain HO-bi
+u6|Ich gehe gern ins Kino.|Me gusta ir al cine.|ij GUEE-e guern ins KII-no
+u6|Wie findest du den Film?|¿Qué te parece la película?|vii FIN-dest du deen film
+u6|Heute ist das Wetter schön.|Hoy hace buen tiempo.|HOI-te ist das VE-ta shöön
+u6|Im Urlaub fahre ich ans Meer.|En vacaciones voy al mar.|im UUR-laup FAA-re ij ans meea
+u7|Ich arbeite als Kellner.|Trabajo de camarero.|ij AR-bai-te als KEL-na
+u7|Wo arbeitest du?|¿Dónde trabajas?|vo AR-bai-test du
+u7|Ich habe heute frei.|Hoy tengo el día libre.|ij HAA-be HOI-te frai
+u7|Ich muss um acht Uhr im Büro sein.|Tengo que estar en la oficina a las ocho.|ij mus um ajt uua im bü-ROO sain
+u7|Ich freue mich auf Ihre Antwort.|Espero su respuesta.|ij FROI-e mij auf II-re ANT-vort
+`;
+// ===== GRAMÁTICA =====
+const UNAMES={u1:"Unidad 1 · Saludos",u2:"Unidad 2 · Familie",u3:"Unidad 3 · Essen und Trinken",u4:"Unidad 4 · Wohnen",u5:"Unidad 5 · Mein Tag",u6:"Unidad 6 · Hobbys",u7:"Unidad 7 · Arbeit"};
+const TOPICS=[];{let t=null,tb=null;GRAW.trim().split("\n").forEach(l=>{l=l.trim();if(!l)return;const k=l[0],r=l.slice(1).trim();
+if(k=="@"){const[id,u,title]=r.split("|");t={id,unit:u,title,ex:[],tabs:[],eg:[],items:[]};TOPICS.push(t);tb=null}
+else if(k==">"){t.items.push({p:r});tb=null}
+else if(k=="!"){if(!tb){tb=[];t.items.push({t:tb})}tb.push(r.split(";"))}
+else{tb=null;const f=r.split("|");if(k=="E")t.eg.push({de:f[0],es:f[1],pr:f[2]});
+else if(k=="F")t.ex.push({type:"fill",q:f[0],a:f[1],w:f[2].split(","),why:f[3]});
+else if(k=="M")t.ex.push({type:"mc",q:f[0],a:f[1],w:f[2].split(";"),why:f[3]})}});
+TOPICS.forEach(t=>{t.eg.forEach(e=>{const s=plain(e.de);if(s.split(" ").length>=3)t.ex.push({type:"order",q:e.es,a:s,pr:e.pr,why:"Fíjate en la posición del verbo (en rojo en los ejemplos)."})});t.ex.forEach((x,i)=>x.id=t.id+"#"+i)})}
+function plain(s){return s.replace(/[*_]/g,"")}
+function mark(s){return s.replace(/\*(.+?)\*/g,'<span class="v">$1</span>').replace(/_(.+?)_/g,'<span class="e">$1</span>')}
+const FRASES=FRAW.trim().split("\n").map(l=>{const f=l.split("|");return{u:f[0],de:f[1],es:f[2],pr:f[3]}});
+st.g=st.g||{};const gres=t=>st.g[t.id]||(st.g[t.id]={});
+function gProg(t){const r=gres(t);const ok=t.ex.filter(x=>r[x.id]==1).length;return ok}
+const qa2=s=>s.replace(/"/g,"&quot;");
+function gList(){let h="<h2>Gramática</h2><p class='small'>Leyenda: <span class='v'>verbo conjugado</span> · <span class='e'>parte al final de la frase</span> · <span class='m'>der</span> <span class='f'>die</span> <span class='n'>das</span></p>";
+Object.keys(UNAMES).forEach(u=>{const ts=TOPICS.filter(t=>t.unit==u);if(!ts.length)return;h+=`<h3>${UNAMES[u]}</h3>`+ts.map(t=>{const p=gProg(t);return`<button class="btn opt" data-t="${t.id}">${t.title}<br><span class="small">${p}/${t.ex.length} ejercicios correctos ${p==t.ex.length?"✅":""}</span><div class="bar"><i style="width:${100*p/t.ex.length}%"></i></div></button>`}).join("")});
+$("#gC").innerHTML=h}
+$("#gC").onclick=e=>{const b=e.target.closest("[data-t]");if(b)gTopic(TOPICS.find(t=>t.id==b.dataset.t))};
+let GT=null,GQ=[],GI=0;
+function gTopic(t){GT=t;let h=`<button class="btn sec" id="gBack">‹ Volver a temas</button><h2>${t.title}</h2>`;
+t.items.forEach(it=>{if(it.p)h+=`<p>${it.p}</p>`;else h+=`<div class="tw"><table>${it.t.map((r,i)=>"<tr>"+r.map(c=>i?`<td>${c}</td>`:`<th>${c}</th>`).join("")+"</tr>").join("")}</table></div>`});
+h+="<h3>Ejemplos</h3>"+t.eg.map(e=>`<div class="li"><div><b style="font-size:1.1rem">${mark(e.de)}</b>${e.es}<div class="pr" style="font-size:.95rem">[${e.pr}]</div></div><button class="spk" data-s="${qa2(plain(e.de))}">🔊</button></div>`).join("");
+h+=`<h3>Ejercicios (${t.ex.length})</h3><div class="row"><button class="btn" id="gStart">▶ Empezar / repetir ejercicios</button><button class="btn sec" id="gWrong">Solo los fallados</button></div><div id="gX"></div>`;
+$("#gC").innerHTML=h;window.scrollTo(0,0);$("#gBack").onclick=gList;
+$("#gStart").onclick=()=>gRun(shuf(t.ex));$("#gWrong").onclick=()=>{const r=gres(t);const w=t.ex.filter(x=>r[x.id]!=1);w.length?gRun(shuf(w)):($("#gX").innerHTML="<p>🎉 ¡No tienes ejercicios pendientes!</p>")}}
+$("#gC").addEventListener("click",e=>{if(e.target.dataset.s)say(e.target.dataset.s)});
+function gRun(list){GQ=list;GI=0;gShow()}
+function gDone(x,ok,extra){const r=gres(GT);r[x.id]=ok?1:0;save();
+$("#gF").innerHTML=(ok?"<b style='color:var(--ok)'>✅ ¡Correcto!</b>":"<b style='color:var(--bad)'>❌ Incorrecto.</b> Respuesta: <b>"+x.a+"</b>")+"<br>"+x.why+(extra||"")+`<br><button class="btn" id="gN" style="margin-top:8px;width:100%">Siguiente ›</button>`;$("#gN").onclick=()=>{GI++;gShow()}}
+function gShow(){const x=GQ[GI],box=$("#gX");if(!x){const p=gProg(GT);box.innerHTML=`<div class="card"><b>Fin de la ronda.</b> Llevas ${p}/${GT.ex.length} correctos en este tema.</div>`;return}
+let h=`<div class="card"><p class="small">Ejercicio ${GI+1}/${GQ.length} · ${{fill:"Completa",mc:"Traduce al alemán",order:"Ordena la frase"}[x.type]}</p>`;
+if(x.type=="fill"){h+=`<div class="es"><b>${x.q.replace("___","<u>&nbsp;?&nbsp;</u>")}</b></div><div id="gO"></div>`}
+else if(x.type=="mc"){h+=`<div class="es"><b>${x.q}</b></div><div id="gO"></div>`}
+else{h+=`<div class="es">${x.q}</div><div id="gAns" class="ans"></div><div id="gPool" class="pool"></div><div class="row"><button class="btn sec" id="gClr">Borrar</button><button class="btn" id="gChk">Comprobar</button></div>`}
+box.innerHTML=h+`<div id="gF" class="small" style="margin-top:8px"></div></div>`;
+if(x.type!="order"){shuf([x.a,...x.w]).forEach(o=>{const b=document.createElement("button");b.className="btn opt";b.textContent=o;b.onclick=()=>{if($("#gF").innerHTML)return;const ok=o==x.a;b.classList.add(ok?"right":"wrong");[...$("#gO").children].forEach(c=>{if(c.textContent==x.a)c.classList.add("right")});
+const full=x.type=="fill"?x.q.replace(/\s*\(.*?\)\s*$/,"").replace(/^.*→\s*/,"").replace("___",x.a):x.a;gDone(x,ok,x.type=="fill"&&/[a-zäöü]/i.test(full)?`<br>🔊 <a href="#" id="gSay">${full}</a>`:`<br>🔊 <a href="#" id="gSay">${full}</a>`);$("#gSay").onclick=ev=>{ev.preventDefault();say(full)};say(full)};$("#gO").appendChild(b)})}
+else{const toks=x.a.split(" ");let picked=[];const pool=shuf(toks.map((w,i)=>({w,i})));if(pool.map(p=>p.w).join(" ")==x.a&&toks.length>1)pool.push(pool.shift());
+const draw=()=>{$("#gAns").innerHTML=picked.map(p=>`<span class="tok on">${p.w}</span>`).join(" ")||"<span class='small'>Toca las palabras en orden…</span>";$("#gPool").innerHTML="";pool.forEach(p=>{if(picked.includes(p))return;const s=document.createElement("button");s.className="tok";s.textContent=p.w;s.onclick=()=>{if($("#gF").innerHTML)return;picked.push(p);draw()};$("#gPool").appendChild(s)})};draw();
+$("#gClr").onclick=()=>{if(!$("#gF").innerHTML){picked=[];draw()}};$("#gChk").onclick=()=>{if($("#gF").innerHTML||picked.length<toks.length)return;const ok=picked.map(p=>p.w).join(" ")==x.a;gDone(x,ok,`<br>[${x.pr}]`);say(x.a)}}}
+// frases
+function fList(){const q=norm($("#fq").value||"");const all=[...TOPICS.flatMap(t=>t.eg.map(e=>({u:t.unit,de:plain(e.de),es:e.es,pr:e.pr}))),...FRASES];
+$("#frL").innerHTML=Object.keys(UNAMES).map(u=>{const fs=all.filter(f=>f.u==u&&(!q||norm(f.de+" "+f.es).includes(q)));return fs.length?`<h3>${UNAMES[u]} (${fs.length})</h3>`+fs.map(f=>`<div class="li"><div><b>${f.de}</b>${f.es}<div class="pr" style="font-size:.95rem">[${f.pr}]</div></div><button class="spk" data-s="${qa2(f.de)}">🔊</button></div>`).join(""):""}).join("");$("#frN").textContent=all.length}
+$("#fq").oninput=fList;$("#frL").onclick=e=>{if(e.target.dataset.s)say(e.target.dataset.s)};
+
+build();
+if("serviceWorker"in navigator&&location.protocol!="file:")navigator.serviceWorker.register("sw.js");
+</script></body></html>
