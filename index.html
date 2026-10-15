@@ -1,4 +1,7 @@
-<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#2b59c3"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Alemán A1">
+<!DOCTYPE html><html lang="es"><head><meta charset="utf-8"><script>
+(function(){function show(m){try{var b=document.getElementById("errb");if(!b){b=document.createElement("div");b.id="errb";b.style.cssText="position:fixed;left:0;right:0;bottom:0;z-index:9999;background:#b00020;color:#fff;padding:10px 14px;font:14px system-ui,sans-serif;max-height:40vh;overflow:auto";(document.body||document.documentElement).appendChild(b)}b.innerHTML+="<div>\u26a0\ufe0f Error en la app: "+String(m).replace(/</g,"&lt;")+" \u2014 env\u00eda este mensaje para que podamos arreglarlo. <button onclick=\"this.parentNode.parentNode.remove()\" style=\"margin-left:8px\">Cerrar</button></div>"}catch(e){}}
+window.__showErr=show;window.addEventListener("error",function(e){show((e.message||"error")+(e.lineno?" (línea "+e.lineno+")":""))});window.addEventListener("unhandledrejection",function(e){show("Promesa rechazada: "+((e.reason&&e.reason.message)||e.reason))});})();
+</script><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name="theme-color" content="#2b59c3"><link rel="manifest" href="manifest.json"><link rel="apple-touch-icon" href="icon-180.png"><link rel="icon" href="icon-192.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><meta name="apple-mobile-web-app-title" content="Alemán A1">
 <title>Alemán A1.1 – Vocabulario y pronunciación</title>
 <style>
 :root{--bg:#f4f6fb;--c:#fff;--p:#2b59c3;--ok:#1f9d55;--bad:#d64545;--t:#1d2433;--m:#6b7280}
@@ -465,16 +468,20 @@ const DECKS=[],ITEMS=[];let cur=null;
 RAW.trim().split("\n").forEach(l=>{l=l.trim();if(!l)return;if(l[0]=="#"){const[id,t]=l.slice(1).split("|");cur={id,title:t,items:[]};DECKS.push(cur);return}
 const[de,es,pr,t]=l.split("|");const it={id:cur.id+":"+de,deck:cur.id,de,es,pr,tips:(t||"").split(",").filter(Boolean)};cur.items.push(it);ITEMS.push(it)});
 const $=s=>document.querySelector(s);const LS="aleman_a1_v1";
-let st=JSON.parse(localStorage.getItem(LS)||"{}");st.c=st.c||{};st.rate=st.rate||0.9;
-const save=()=>localStorage.setItem(LS,JSON.stringify(st));
+const MEM={};let LSOK=false;try{const k="__t";window.localStorage.setItem(k,"1");window.localStorage.removeItem(k);LSOK=true}catch(e){}
+function lsGet(k){try{return LSOK?window.localStorage.getItem(k):(MEM[k]||null)}catch(e){return MEM[k]||null}}
+function lsSet(k,v){MEM[k]=v;try{if(LSOK)window.localStorage.setItem(k,v)}catch(e){}}
+let st={};try{st=JSON.parse(lsGet(LS)||"{}")||{}}catch(e){st={}}st.c=st.c||{};st.rate=st.rate||0.9;
+const save=()=>{try{lsSet(LS,JSON.stringify(st))}catch(e){}};
 const INTV=[0,1,2,4,8,16];const DAY=864e5;
 const cs=it=>st.c[it.id]||{b:0,d:0};const isDue=it=>{const c=cs(it);return c.b==0||c.d<=Date.now()};
 function grade(it,ok){const c=cs(it);c.b=ok?Math.min(5,c.b+1):1;c.d=Date.now()+INTV[c.b]*DAY*(ok?1:0);st.c[it.id]=c;save()}
 // voz
-let voices=[];function loadV(){voices=speechSynthesis.getVoices().filter(v=>/^de/i.test(v.lang));const s=$("#voice");s.innerHTML=voices.map((v,i)=>`<option value="${i}">${v.name} (${v.lang})</option>`).join("")||"<option>Voz predeterminada de-DE</option>";
-const k=voices.findIndex(v=>v.name==st.voice);if(k>=0)s.value=k;$("#vInfo").textContent=voices.length?voices.length+" voz/voces alemanas disponibles.":"No se encontró voz alemana: se usará la del sistema con lang=de-DE. Instala una voz alemana en tu dispositivo para mejor sonido."}
-function say(t){if(!window.speechSynthesis)return alert("Tu navegador no admite síntesis de voz.");speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/\(.*?\)/g,"").replace("–",","));u.lang="de-DE";u.rate=st.rate;const v=voices.find(v=>v.name==st.voice)||voices.find(v=>v.lang=="de-DE")||voices[0];if(v)u.voice=v;speechSynthesis.speak(u)}
-if(window.speechSynthesis){loadV();speechSynthesis.onvoiceschanged=loadV}
+const TTS=(function(){try{return window.speechSynthesis&&window.SpeechSynthesisUtterance?window.speechSynthesis:null}catch(e){return null}})();
+let voices=[];function loadV(){try{voices=(TTS&&TTS.getVoices?TTS.getVoices()||[]:[]).filter(v=>/^de/i.test(v.lang));const s=$("#voice");s.innerHTML=voices.map((v,i)=>`<option value="${i}">${v.name} (${v.lang})</option>`).join("")||"<option>Voz predeterminada de-DE</option>";
+const k=voices.findIndex(v=>v.name==st.voice);if(k>=0)s.value=k;$("#vInfo").textContent=voices.length?voices.length+" voz/voces alemanas disponibles.":"No se encontró voz alemana: se usará la del sistema con lang=de-DE. Instala una voz alemana en tu dispositivo para mejor sonido."}catch(e){}}
+let ttsWarned=false;function say(t){if(!TTS){if(!ttsWarned){ttsWarned=true;try{window.__showErr&&0;const n=document.getElementById("fInfo");if(n)n.textContent="🔇 Este navegador no permite audio (síntesis de voz). Puedes usar la app igualmente.";}catch(e){}}return}try{TTS.cancel();const u=new SpeechSynthesisUtterance(t.replace(/\(.*?\)/g,"").replace("–",","));u.lang="de-DE";u.rate=st.rate;const v=voices.find(v=>v.name==st.voice)||voices.find(v=>v.lang=="de-DE")||voices[0];if(v)u.voice=v;TTS.speak(u)}catch(e){}}
+try{loadV();if(TTS)TTS.onvoiceschanged=loadV}catch(e){}
 // mazo
 const dsel=$("#deck");dsel.innerHTML='<option value="*">Todas las unidades</option>'+DECKS.map(d=>`<option value="${d.id}">${d.title} (${d.items.length})</option>`).join("");dsel.value=st.deck||"antes";
 const deckItems=()=>dsel.value=="*"?ITEMS:DECKS.find(d=>d.id==dsel.value).items;
@@ -493,7 +500,7 @@ $("#due").onclick=()=>{onlyDue=true;build()};$("#all").onclick=()=>{onlyDue=fals
 // repetir
 let ri=0;const norm=s=>s.toLowerCase().replace(/\(.*?\)/g,"").replace(/[.,!?¿¡–\-…]/g," ").replace(/ß/g,"ss").replace(/\s+/g," ").trim();
 function showR(){const it=queue.length?queue[ri%queue.length]:deckItems()[0];$("#rDe").textContent=it.de;$("#rPr").textContent="["+it.pr+"]";$("#rEs").textContent=it.es;$("#rRes").textContent="";$("#rMic").dataset.id=it.id}
-const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+let SR=null;try{SR=window.SpeechRecognition||window.webkitSpeechRecognition||null}catch(e){}
 $("#rSup").textContent=SR?"Pulsa 🎤 y di la palabra en alemán. (Requiere permiso de micrófono y suele necesitar conexión.)":"⚠️ Tu navegador no admite reconocimiento de voz. Usa Chrome o Edge (escritorio o Android). Puedes escuchar y repetir en voz alta igualmente.";
 $("#rPlay").onclick=()=>say($("#rDe").textContent);$("#rNext").onclick=()=>{ri++;showR()};
 $("#rMic").onclick=()=>{if(!SR){$("#rRes").textContent="Reconocimiento de voz no disponible en este navegador.";return}
@@ -523,7 +530,7 @@ const setRate=r=>{st.rate=+r;$("#rate").value=r;$("#rateL").textContent=(+r).toF
 $("#rate").oninput=e=>setRate(e.target.value);$("#rSlow").onclick=()=>setRate(0.6);$("#rNorm").onclick=()=>setRate(0.95);
 $("#voice").onchange=e=>{const v=voices[e.target.value];if(v){st.voice=v.name;save();say("Guten Tag")}};
 $("#reset").onclick=()=>{if(confirm("¿Borrar todo tu progreso?")){st.c={};save();build()}};
-$("#nav").onclick=e=>{const v=e.target.dataset.v;if(!v)return;document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b==e.target));document.querySelectorAll("main section").forEach(s=>s.classList.toggle("hide",s.id!="v-"+v));if(v=="list")search();if(v=="quiz")newQ();if(v=="rep")showR();if(v=="gram")gList();if(v=="fr")fList()};
+$("#nav").onclick=e=>{const v=e.target.dataset.v;if(!v)return;document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("on",b==e.target));document.querySelectorAll("main section").forEach(s=>s.classList.toggle("hide",s.id!="v-"+v));if(v=="list")search();if(v=="quiz")newQ();try{if(v=="rep")showR();if(v=="gram")gList();if(v=="fr")fList()}catch(err){window.__showErr&&window.__showErr(err.message)}};
 const GRAW=`@pron|u1|Pronombres personales · du vs. Sie
 >En alemán el pronombre sujeto <b>es obligatorio</b>: en español decimos «vengo», en alemán siempre <b>Ich komme</b>. Cuidado: <b>sie</b> puede ser «ella», «ellos/ellas» y, con mayúscula, <b>Sie</b> = «usted/ustedes».
 >Usa <b>du</b> con amigos, familia, niños y entre jóvenes. Usa <b>Sie</b> (formal) con desconocidos, en el trabajo, en tiendas. <b>Sie</b> se conjuga igual que «ellos» (Sie kommen).
@@ -1007,6 +1014,7 @@ u7|Ich habe heute frei.|Hoy tengo el día libre.|ij HAA-be HOI-te frai
 u7|Ich muss um acht Uhr im Büro sein.|Tengo que estar en la oficina a las ocho.|ij mus um ajt uua im bü-ROO sain
 u7|Ich freue mich auf Ihre Antwort.|Espero su respuesta.|ij FROI-e mij auf II-re ANT-vort
 `;
+try{build();window.__built=1}catch(e){window.__showErr&&window.__showErr("Tarjetas: "+e.message)}
 // ===== GRAMÁTICA =====
 const UNAMES={u1:"Unidad 1 · Saludos",u2:"Unidad 2 · Familie",u3:"Unidad 3 · Essen und Trinken",u4:"Unidad 4 · Wohnen",u5:"Unidad 5 · Mein Tag",u6:"Unidad 6 · Hobbys",u7:"Unidad 7 · Arbeit"};
 const TOPICS=[];{let t=null,tb=null;GRAW.trim().split("\n").forEach(l=>{l=l.trim();if(!l)return;const k=l[0],r=l.slice(1).trim();
@@ -1054,6 +1062,6 @@ function fList(){const q=norm($("#fq").value||"");const all=[...TOPICS.flatMap(t
 $("#frL").innerHTML=Object.keys(UNAMES).map(u=>{const fs=all.filter(f=>f.u==u&&(!q||norm(f.de+" "+f.es).includes(q)));return fs.length?`<h3>${UNAMES[u]} (${fs.length})</h3>`+fs.map(f=>`<div class="li"><div><b>${f.de}</b>${f.es}<div class="pr" style="font-size:.95rem">[${f.pr}]</div></div><button class="spk" data-s="${qa2(f.de)}">🔊</button></div>`).join(""):""}).join("");$("#frN").textContent=all.length}
 $("#fq").oninput=fList;$("#frL").onclick=e=>{if(e.target.dataset.s)say(e.target.dataset.s)};
 
-build();
-if("serviceWorker"in navigator&&location.protocol!="file:")navigator.serviceWorker.register("sw.js");
+try{if(!window.__built)build()}catch(e){window.__showErr&&window.__showErr("Inicio: "+e.message)}
+try{if("serviceWorker"in navigator&&location.protocol!="file:")navigator.serviceWorker.register("sw.js").catch(function(){})}catch(e){}
 </script></body></html>
